@@ -26,10 +26,10 @@ const Title = ({ head, head2, para }) => {
     >
       <motion.div className="flex items-center mb-3" variants={item}>
         <motion.h2
-          className="text-2xl md:text-4xl font-bold"
+          className="text-2xl md:text-4xl text-black font-bold"
           variants={item}
         >
-          {head} <span className="text-[#1E293B]">{head2}</span>
+          {head} <span className="text-[#37475f]">{head2}</span>
         </motion.h2>
 
         {/* Animated accent line */}

@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+    background-color: white;
+}
 .text-col{
     color: #959391;
 }

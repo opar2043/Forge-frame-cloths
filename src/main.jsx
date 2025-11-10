@@ -13,6 +13,8 @@ import Home from './Components/Root/Home.jsx';
 import Error from './Components/Root/Error.jsx';
 import Login from './Components/Firebase/Login.jsx';
 import Register from './Components/Firebase/Register.jsx';
+import Wishlist from './Components/Wishlist/Wishlist.jsx';
+import Products from './Components/Products/Products.jsx';
 
 const queryClient = new QueryClient()
 
@@ -33,6 +35,14 @@ const router = createBrowserRouter([
       {
         path: '/register',
         element: <Register></Register>
+      },
+      {
+        path: '/wishlist',
+        element: <Wishlist></Wishlist>
+      },
+      {
+        path: '/dresses',
+        element: <Products></Products>
       },
     ]
   }

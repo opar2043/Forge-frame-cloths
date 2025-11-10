@@ -27,7 +27,7 @@ const lineGrow = {
 const MoreDetails = () => {
   return (
     <motion.section
-      className="mx-auto w-11/12 rounded-xl bg-white p-3"
+      className="mx-auto w-11/12  bg-white p-3"
       variants={container}
       initial="hidden"
       whileInView="show"
