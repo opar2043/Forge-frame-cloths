@@ -15,6 +15,7 @@ import Login from './Components/Firebase/Login.jsx';
 import Register from './Components/Firebase/Register.jsx';
 import Wishlist from './Components/Wishlist/Wishlist.jsx';
 import Products from './Components/Products/Products.jsx';
+import ViewProduct from './Components/Products/ViewProduct.jsx';
 
 const queryClient = new QueryClient()
 
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
       {
         path: '/dresses',
         element: <Products></Products>
+      },
+      {
+        path: '/view/:id',
+        element: <ViewProduct></ViewProduct>
       },
     ]
   }

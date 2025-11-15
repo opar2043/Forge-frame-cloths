@@ -1,170 +1,391 @@
 [
   {
-    "id": "catharine-maxi-brown",
-    "name": ["Catharine Floral Lace Sheer Maxi Dress"],
+    "id": "newin-catharine-maxi-brown",
+    "name": "Catharine Floral Lace Sheer Maxi Dress",
     "slug": "catharine-floral-lace-sheer-maxi-brown",
-    "price": [109],
+    "price": 109,
     "currency": "USD",
     "rating": 4.7,
     "reviews_count": 38,
-    "color": ["Brown"],
+    "category": "New in",
+    "subcategory": "Maxi Dress",
+    "audience": ["Women"],
+    "images": [
+      "https://media.istockphoto.com/id/1440977634/photo/vertical-shot-of-the-beautiful-pink-dress-isolated-on-the-white-background.jpg?b=1&s=612x612&w=0&k=20&c=4_piA2edAWWWQ7VyUl7hWJy32yU4xuLE1-iKvKNm2Fk=",
+      "https://media.istockphoto.com/id/1440977634/photo/vertical-shot-of-the-beautiful-pink-dress-isolated-on-the-white-background.jpg?b=1&s=612x612&w=0&k=20&c=4_piA2edAWWWQ7VyUl7hWJy32yU4xuLE1-iKvKNm2Fk="
+    ],
     "sizes": ["S", "M", "L", "XL"],
+    "color": ["Brown"],
     "materials": ["Polyester", "Premium Lace"],
     "fit": "Relaxed",
-    "stretch": "High",
-    "opening": "Pullover",
-    "included": "Underdress",
-    "shipping_free_over": 89,
-    "promos": [{ "threshold": 100, "off": 10 }, { "threshold": 200, "off": 15 }, { "threshold": 400, "off": 20 }],
-    "sku": "CAT-MAXI-BRN",
-    "image": ["https://example.com/catharine/brown.jpg"],
-    "category": ["Women", "Dresses", "Maxi"]
+    "occasion": "Evening / Event",
+    "tags": ["lace", "sheer", "new"],
+    "isTrending": true,
+    "isLimitedEdition": false,
+    "isOnSale": false,
+    "reviews": [
+      {
+        "user": "Amina",
+        "rating": 5,
+        "comment": "Perfect for an evening event, the lace is beautiful."
+      },
+      {
+        "user": "Sara",
+        "rating": 4,
+        "comment": "Lovely fit, slightly long for my height."
+      }
+    ]
   },
   {
-    "id": "catharine-maxi-black",
-    "name": ["Catharine Floral Lace Sheer Maxi Dress"],
-    "slug": "catharine-floral-lace-sheer-maxi-black",
-    "price": [109],
+    "id": "abaya-elegant-black-open",
+    "name": "Elegant Black Open Abaya",
+    "slug": "elegant-black-open-abaya",
+    "price": 89,
     "currency": "USD",
     "rating": 4.8,
-    "reviews_count": 52,
-    "color": ["Black"],
+    "reviews_count": 56,
+    "category": "Abayas",
+    "subcategory": "Open Abaya",
+    "audience": ["Women"],
+    "images": [
+      "https://images.pexels.com/photos/1148957/pexels-photo-1148957.jpeg",
+      "https://example.com/abayas/elegant-black-open-2.jpg"
+    ],
     "sizes": ["S", "M", "L", "XL"],
-    "materials": ["Polyester", "Premium Lace"],
-    "fit": "Relaxed",
-    "stretch": "High",
-    "opening": "Pullover",
-    "included": "Underdress",
-    "shipping_free_over": 89,
-    "promos": [{ "threshold": 100, "off": 10 }, { "threshold": 200, "off": 15 }, { "threshold": 400, "off": 20 }],
-    "sku": "CAT-MAXI-BLK",
-    "image": ["https://example.com/catharine/black.jpg"],
-    "category": ["Women", "Dresses", "Maxi"]
+    "color": ["Black"],
+    "materials": ["Crepe"],
+    "fit": "Modest",
+    "occasion": "Everyday / Occasion",
+    "tags": ["abaya", "black", "classic"],
+    "isTrending": true,
+    "isLimitedEdition": false,
+    "isOnSale": false,
+    "reviews": [
+      {
+        "user": "Noura",
+        "rating": 5,
+        "comment": "Flows beautifully and feels high quality."
+      }
+    ]
   },
   {
-    "id": "catharine-maxi-ivory",
-    "name": ["Catharine Floral Lace Sheer Maxi Dress"],
-    "slug": "catharine-floral-lace-sheer-maxi-ivory",
-    "price": [109],
+    "id": "top-classic-white-shirt",
+    "name": "Classic Tailored White Shirt",
+    "slug": "classic-tailored-white-shirt",
+    "price": 49,
     "currency": "USD",
     "rating": 4.6,
-    "reviews_count": 24,
-    "color": ["Ivory"],
-    "sizes": ["S", "M", "L", "XL"],
-    "materials": ["Polyester", "Premium Lace"],
-    "fit": "Relaxed",
-    "stretch": "High",
-    "opening": "Pullover",
-    "included": "Underdress",
-    "shipping_free_over": 89,
-    "promos": [{ "threshold": 100, "off": 10 }, { "threshold": 200, "off": 15 }, { "threshold": 400, "off": 20 }],
-    "sku": "CAT-MAXI-IVR",
-    "image": ["https://example.com/catharine/ivory.jpg"],
-    "category": ["Women", "Dresses", "Maxi"]
+    "reviews_count": 72,
+    "category": "Tops /shirts",
+    "subcategory": "Shirt",
+    "audience": ["Women"],
+    "images": [
+      "https://images.pexels.com/photos/995978/pexels-photo-995978.jpeg",
+      "https://example.com/tops/classic-white-shirt-2.jpg"
+    ],
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "color": ["White"],
+    "materials": ["Cotton", "Elastane"],
+    "fit": "Tailored",
+    "occasion": "Work / Casual",
+    "tags": ["wardrobe-staple", "office"],
+    "isTrending": false,
+    "isLimitedEdition": false,
+    "isOnSale": false,
+    "reviews": [
+      {
+        "user": "Layla",
+        "rating": 4,
+        "comment": "Great for work, fabric is soft."
+      }
+    ]
   },
   {
-    "id": "catharine-maxi-sage",
-    "name": ["Catharine Floral Lace Sheer Maxi Dress"],
-    "slug": "catharine-floral-lace-sheer-maxi-sage",
-    "price": [109],
+    "id": "dress-satin-slip-emerald",
+    "name": "Satin Slip Dress Emerald",
+    "slug": "satin-slip-dress-emerald",
+    "price": 119,
+    "currency": "USD",
+    "rating": 4.9,
+    "reviews_count": 84,
+    "category": "Dresses",
+    "subcategory": "Slip Dress",
+    "audience": ["Women"],
+    "images": [
+      "https://images.pexels.com/photos/1148957/pexels-photo-1148957.jpeg",
+      "https://example.com/dresses/satin-slip-emerald-2.jpg"
+    ],
+    "sizes": ["S", "M", "L"],
+    "color": ["Emerald"],
+    "materials": ["Polyester Satin"],
+    "fit": "Slim",
+    "occasion": "Party / Evening",
+    "tags": ["satin", "party", "trending"],
+    "isTrending": true,
+    "isLimitedEdition": false,
+    "isOnSale": false,
+    "reviews": [
+      {
+        "user": "Hana",
+        "rating": 5,
+        "comment": "Color is stunning in real life."
+      }
+    ]
+  },
+  {
+    "id": "coords-linen-beige-set",
+    "name": "Linen Relaxed Co-ord Set",
+    "slug": "linen-relaxed-coord-set",
+    "price": 99,
     "currency": "USD",
     "rating": 4.5,
-    "reviews_count": 19,
-    "color": ["Sage"],
+    "reviews_count": 35,
+    "category": "Co Ords",
+    "subcategory": "Linen Set",
+    "audience": ["Women"],
+    "images": [
+      "https://media.istockphoto.com/id/1440977634/photo/vertical-shot-of-the-beautiful-pink-dress-isolated-on-the-white-background.jpg?b=1&s=612x612&w=0&k=20&c=4_piA2edAWWWQ7VyUl7hWJy32yU4xuLE1-iKvKNm2Fk=",
+      "https://example.com/coords/linen-beige-set-2.jpg"
+    ],
     "sizes": ["S", "M", "L", "XL"],
-    "materials": ["Polyester", "Premium Lace"],
+    "color": ["Beige"],
+    "materials": ["Linen", "Cotton"],
     "fit": "Relaxed",
-    "stretch": "High",
-    "opening": "Pullover",
-    "included": "Underdress",
-    "shipping_free_over": 89,
-    "promos": [{ "threshold": 100, "off": 10 }, { "threshold": 200, "off": 15 }, { "threshold": 400, "off": 20 }],
-    "sku": "CAT-MAXI-SGE",
-    "image": ["https://example.com/catharine/sage.jpg"],
-    "category": ["Women", "Dresses", "Maxi"]
+    "occasion": "Casual / Travel",
+    "tags": ["co-ord", "summer"],
+    "isTrending": false,
+    "isLimitedEdition": false,
+    "isOnSale": false,
+    "reviews": [
+      {
+        "user": "Zara",
+        "rating": 4,
+        "comment": "Very comfortable for warm weather."
+      }
+    ]
   },
   {
-    "id": "catharine-maxi-burgundy",
-    "name": ["Catharine Floral Lace Sheer Maxi Dress"],
-    "slug": "catharine-floral-lace-sheer-maxi-burgundy",
-    "price": [109],
+    "id": "loungewear-soft-rib-set-mocha",
+    "name": "Soft Rib Loungewear Set",
+    "slug": "soft-rib-loungewear-set-mocha",
+    "price": 79,
     "currency": "USD",
     "rating": 4.7,
-    "reviews_count": 41,
-    "color": ["Burgundy"],
-    "sizes": ["S", "M", "L", "XL"],
-    "materials": ["Polyester", "Premium Lace"],
+    "reviews_count": 44,
+    "category": "Lounge wear",
+    "subcategory": "Set",
+    "audience": ["Women"],
+    "images": [
+      "https://images.pexels.com/photos/995978/pexels-photo-995978.jpeg",
+      "https://example.com/loungewear/soft-rib-mocha-2.jpg"
+    ],
+    "sizes": ["S", "M", "L"],
+    "color": ["Mocha"],
+    "materials": ["Viscose", "Elastane"],
     "fit": "Relaxed",
-    "stretch": "High",
-    "opening": "Pullover",
-    "included": "Underdress",
-    "shipping_free_over": 89,
-    "promos": [{ "threshold": 100, "off": 10 }, { "threshold": 200, "off": 15 }, { "threshold": 400, "off": 20 }],
-    "sku": "CAT-MAXI-BUR",
-    "image": ["https://example.com/catharine/burgundy.jpg"],
-    "category": ["Women", "Dresses", "Maxi"]
+    "occasion": "Home / Casual",
+    "tags": ["comfy", "soft"],
+    "isTrending": true,
+    "isLimitedEdition": false,
+    "isOnSale": true,
+    "reviews": [
+      {
+        "user": "Maryam",
+        "rating": 5,
+        "comment": "So soft, I wear it every day."
+      }
+    ]
   },
   {
-    "id": "catharine-maxi-navy",
-    "name": ["Catharine Floral Lace Sheer Maxi Dress"],
-    "slug": "catharine-floral-lace-sheer-maxi-navy",
-    "price": [109],
+    "id": "trousers-wide-leg-black",
+    "name": "High-Waist Wide Leg Trousers",
+    "slug": "high-waist-wide-leg-trousers-black",
+    "price": 59,
     "currency": "USD",
     "rating": 4.6,
-    "reviews_count": 27,
-    "color": ["Navy"],
-    "sizes": ["S", "M", "L", "XL"],
-    "materials": ["Polyester", "Premium Lace"],
-    "fit": "Relaxed",
-    "stretch": "High",
-    "opening": "Pullover",
-    "included": "Underdress",
-    "shipping_free_over": 89,
-    "promos": [{ "threshold": 100, "off": 10 }, { "threshold": 200, "off": 15 }, { "threshold": 400, "off": 20 }],
-    "sku": "CAT-MAXI-NVY",
-    "image": ["https://example.com/catharine/navy.jpg"],
-    "category": ["Women", "Dresses", "Maxi"]
+    "reviews_count": 63,
+    "category": "Trousers",
+    "subcategory": "Wide Leg",
+    "audience": ["Women"],
+    "images": [
+      "https://media.istockphoto.com/id/1440977634/photo/vertical-shot-of-the-beautiful-pink-dress-isolated-on-the-white-background.jpg?b=1&s=612x612&w=0&k=20&c=4_piA2edAWWWQ7VyUl7hWJy32yU4xuLE1-iKvKNm2Fk=",
+      "https://example.com/trousers/wide-leg-black-2.jpg"
+    ],
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "color": ["Black"],
+    "materials": ["Polyester", "Elastane"],
+    "fit": "Wide Leg",
+    "occasion": "Office / Casual",
+    "tags": ["wide-leg", "office"],
+    "isTrending": false,
+    "isLimitedEdition": false,
+    "isOnSale": true,
+    "reviews": [
+      {
+        "user": "Rania",
+        "rating": 4,
+        "comment": "Very flattering cut and length."
+      }
+    ]
   },
   {
-    "id": "catharine-maxi-dusty-pink",
-    "name": ["Catharine Floral Lace Sheer Maxi Dress"],
-    "slug": "catharine-floral-lace-sheer-maxi-dusty-pink",
-    "price": [109],
+    "id": "outerwear-longline-trench-stone",
+    "name": "Longline Trench Coat",
+    "slug": "longline-trench-coat-stone",
+    "price": 139,
+    "currency": "USD",
+    "rating": 4.8,
+    "reviews_count": 51,
+    "category": "Outerwear",
+    "subcategory": "Trench Coat",
+    "audience": ["Women"],
+    "images": [
+      "https://images.pexels.com/photos/995978/pexels-photo-995978.jpeg",
+      "https://example.com/outerwear/longline-trench-stone-2.jpg"
+    ],
+    "sizes": ["S", "M", "L"],
+    "color": ["Stone"],
+    "materials": ["Cotton Blend"],
+    "fit": "Regular",
+    "occasion": "Work / City",
+    "tags": ["trench", "classic"],
+    "isTrending": false,
+    "isLimitedEdition": false,
+    "isOnSale": false,
+    "reviews": [
+      {
+        "user": "Iman",
+        "rating": 5,
+        "comment": "Feels expensive and looks very chic."
+      }
+    ]
+  },
+  {
+    "id": "accessory-mini-shoulder-bag-cream",
+    "name": "Mini Shoulder Bag Cream",
+    "slug": "mini-shoulder-bag-cream",
+    "price": 39,
     "currency": "USD",
     "rating": 4.5,
-    "reviews_count": 21,
-    "color": ["Dusty Pink"],
-    "sizes": ["S", "M", "L", "XL"],
-    "materials": ["Polyester", "Premium Lace"],
-    "fit": "Relaxed",
-    "stretch": "High",
-    "opening": "Pullover",
-    "included": "Underdress",
-    "shipping_free_over": 89,
-    "promos": [{ "threshold": 100, "off": 10 }, { "threshold": 200, "off": 15 }, { "threshold": 400, "off": 20 }],
-    "sku": "CAT-MAXI-DPK",
-    "image": ["https://example.com/catharine/dusty-pink.jpg"],
-    "category": ["Women", "Dresses", "Maxi"]
+    "reviews_count": 29,
+    "category": "Accessories",
+    "subcategory": "Bag",
+    "audience": ["Women"],
+    "images": [
+      "https://images.pexels.com/photos/995978/pexels-photo-995978.jpeg",
+      "https://example.com/accessories/mini-shoulder-bag-cream-2.jpg"
+    ],
+    "sizes": [],
+    "color": ["Cream"],
+    "materials": ["PU Leather"],
+    "fit": "One Size",
+    "occasion": "Everyday",
+    "tags": ["bag", "mini"],
+    "isTrending": true,
+    "isLimitedEdition": false,
+    "isOnSale": false,
+    "reviews": [
+      {
+        "user": "Aisha",
+        "rating": 4,
+        "comment": "Cute and small, fits essentials only."
+      }
+    ]
   },
   {
-    "id": "catharine-maxi-champagne",
-    "name": ["Catharine Floral Lace Sheer Maxi Dress"],
-    "slug": "catharine-floral-lace-sheer-maxi-champagne",
-    "price": [109],
+    "id": "bestseller-catharine-maxi-navy",
+    "name": "Catharine Floral Lace Maxi Dress",
+    "slug": "catharine-floral-lace-maxi-navy",
+    "price": 109,
     "currency": "USD",
-    "rating": 4.6,
-    "reviews_count": 26,
-    "color": ["Champagne"],
+    "rating": 4.9,
+    "reviews_count": 130,
+    "category": "Best sellers",
+    "subcategory": "Maxi Dress",
+    "audience": ["Women"],
+    "images": [
+      "https://images.pexels.com/photos/1148957/pexels-photo-1148957.jpeg",
+      "https://example.com/catharine/navy-2.jpg"
+    ],
     "sizes": ["S", "M", "L", "XL"],
-    "materials": ["Polyester", "Premium Lace"],
+    "color": ["Navy"],
+    "materials": ["Polyester", "Lace"],
     "fit": "Relaxed",
-    "stretch": "High",
-    "opening": "Pullover",
-    "included": "Underdress",
-    "shipping_free_over": 89,
-    "promos": [{ "threshold": 100, "off": 10 }, { "threshold": 200, "off": 15 }, { "threshold": 400, "off": 20 }],
-    "sku": "CAT-MAXI-CHM",
-    "image": ["https://example.com/catharine/champagne.jpg"],
-    "category": ["Women", "Dresses", "Maxi"]
+    "occasion": "Occasion / Event",
+    "tags": ["bestseller", "event"],
+    "isTrending": true,
+    "isLimitedEdition": false,
+    "isOnSale": false,
+    "reviews": [
+      {
+        "user": "Samira",
+        "rating": 5,
+        "comment": "My favorite dress from your store!"
+      }
+    ]
+  },
+  {
+    "id": "sale-dusty-pink-maxi",
+    "name": "Dusty Pink Chiffon Maxi Dress",
+    "slug": "dusty-pink-chiffon-maxi-dress",
+    "price": 89,
+    "currency": "USD",
+    "rating": 4.4,
+    "reviews_count": 40,
+    "category": "Sale",
+    "subcategory": "Maxi Dress",
+    "audience": ["Women"],
+    "images": [
+      "https://images.pexels.com/photos/995978/pexels-photo-995978.jpeg",
+      "https://example.com/dresses/dusty-pink-maxi-2.jpg"
+    ],
+    "sizes": ["S", "M", "L"],
+    "color": ["Dusty Pink"],
+    "materials": ["Chiffon"],
+    "fit": "Flowy",
+    "occasion": "Occasion / Event",
+    "tags": ["sale", "chiffon"],
+    "isTrending": false,
+    "isLimitedEdition": false,
+    "isOnSale": true,
+    "reviews": [
+      {
+        "user": "Yasmin",
+        "rating": 4,
+        "comment": "Great for weddings, color is soft and pretty."
+      }
+    ]
+  },
+  {
+    "id": "limited-edition-champagne-lace-gown",
+    "name": "Champagne Lace Evening Gown",
+    "slug": "champagne-lace-evening-gown",
+    "price": 159,
+    "currency": "USD",
+    "rating": 4.9,
+    "reviews_count": 22,
+    "category": "Limited edition ❤",
+    "subcategory": "Evening Gown",
+    "audience": ["Women"],
+    "images": [
+      "https://images.pexels.com/photos/1148957/pexels-photo-1148957.jpeg",
+      "https://example.com/dresses/champagne-lace-gown-2.jpg"
+    ],
+    "sizes": ["S", "M", "L"],
+    "color": ["Champagne"],
+    "materials": ["Lace", "Satin"],
+    "fit": "Slim",
+    "occasion": "Black Tie / Event",
+    "tags": ["limited", "evening", "premium"],
+    "isTrending": true,
+    "isLimitedEdition": true,
+    "isOnSale": false,
+    "reviews": [
+      {
+        "user": "Noor",
+        "rating": 5,
+        "comment": "Feels like a designer gown, absolutely stunning."
+      }
+    ]
   }
 ]

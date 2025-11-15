@@ -2,6 +2,7 @@ import React from 'react'
 import Banner from '../Share/Banner'
 import Title from '../Share/Title';
 import MoreDetails from '../About/MoreDetails';
+import HomeProducts from '../Products/HomeProduct';
 
 const Home = () => {
     const ban1 = 'https://marketplace.canva.com/EAFGKRRskMs/1/0/1600w/canva-brown-and-beige-minimalist-fashion-banner-lYcbGpUSVGo.jpg';
@@ -13,6 +14,7 @@ const Home = () => {
     <div>
         <Banner ban={ban1}></Banner>
         <Title head={'NEW'} head2={"IN"} para={'New Styles Drop Daily'}></Title>
+        <HomeProducts></HomeProducts>
         <Banner ban={ban2}></Banner>
          <Title head={'MEGA'} head2={"OFFER"} para={'Grab Your Item'}></Title>
         <Banner ban={ban3}></Banner>
