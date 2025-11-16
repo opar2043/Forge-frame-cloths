@@ -16,6 +16,14 @@ import Register from './Components/Firebase/Register.jsx';
 import Wishlist from './Components/Wishlist/Wishlist.jsx';
 import Products from './Components/Products/Products.jsx';
 import ViewProduct from './Components/Products/ViewProduct.jsx';
+import Dashboard from './Components/Dashboard/Admin/Dashboard.jsx';
+import AddProducts from './Components/Dashboard/ProductsCollection/AddProducts.jsx';
+import EditProduct from './Components/Dashboard/ProductsCollection/EditProduct.jsx';
+import AllProducts from './Components/Dashboard/ProductsCollection/AllProducts.jsx';
+import Users from './Components/Dashboard/Users/Users.jsx';
+import Order from './Components/Dashboard/Order/Order.jsx';
+import AllThing from './Components/Dashboard/Admin/AllThing.jsx';
+import AuthProvider from './Components/Firebase/AuthProvider.jsx';
 
 const queryClient = new QueryClient()
 
@@ -50,24 +58,50 @@ const router = createBrowserRouter([
         element: <ViewProduct></ViewProduct>
       },
     ]
+  },
+{
+    path: '/dashboard',
+    element: <Dashboard></Dashboard>,
+    children: [
+    {
+      path: "/dashboard",
+      element: <AllThing></AllThing>
+    },
+    {
+      path: "/dashboard/add-product",
+      element: <AddProducts></AddProducts>
+    },
+    {
+      path: "/dashboard/edit-product",
+      element: <EditProduct></EditProduct>
+    },
+    {
+      path: "/dashboard/all-product",
+      element: <AllProducts />
+    },
+    {
+      path: "/dashboard/users",
+      element: <Users></Users>
+    },
+    {
+      path: "/dashboard/orders",
+      element: <Order></Order>
+    },
+    {
+      path: "/dashboard/all-thing",
+      element: <AllThing></AllThing>
+    },
+  ]
   }
-// {
-//     path: '/dashboard',
-//     element: <Dashboard></Dashboard>,
-//     children: [
-//     {
-//       path: "/dashboard",
-//       element: <Dashboard></Dashboard>
-//     }
-//   ]
-//   }
 ]);
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </QueryClientProvider>
   </StrictMode>,
 )

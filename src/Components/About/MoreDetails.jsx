@@ -32,6 +32,7 @@ const MoreDetails = () => {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.2 }}
+      id="about"
     >
       {/* Top Title */}
       <motion.h2

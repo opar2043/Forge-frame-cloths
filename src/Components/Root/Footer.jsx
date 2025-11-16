@@ -36,14 +36,15 @@ const Footer = () => {
             </h3>
 
             <ul className="space-y-3 text-sm">
-              <li>
-                <Link
-                  to="/about"
+              <li >
+                <a
+
+                  href="#about"
                   style={subText}
                   className="hover:text-slate-900 transition"
                 >
                   About Us
-                </Link>
+                </a>
               </li>
               <li>
                 <Link
