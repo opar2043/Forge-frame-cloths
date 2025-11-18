@@ -161,7 +161,7 @@ const ProductCard = ({ pro, index }) => {
               transition={{ duration: 2, repeat: Infinity }}
               className="text-[15px] text-slate-900 font-semibold"
             >
-              ${price}
+              £{price}
             </motion.span>
 
             {/* color dots */}

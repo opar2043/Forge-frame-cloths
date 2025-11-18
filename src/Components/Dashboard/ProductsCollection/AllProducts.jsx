@@ -159,7 +159,7 @@ const AllProducts = () => {
                     {/* Actions */}
                     <td className="px-3 py-2 align-middle">
                       <div className="flex items-center gap-2">
-                        <Link to={`/edit-product/${product._id}`}>
+                        <Link to={`/dashboard/edit-product/${product._id}`}>
                           <button
                             
                             className="px-3 py-1.5 text-xs rounded border border-slate-200 text-slate-700 hover:bg-[#F9F6F2] transition-colors"
@@ -167,6 +167,8 @@ const AllProducts = () => {
                             Edit
                           </button>
                         </Link>
+
+                        
 
                         <button
                           onClick={() => handleDelete(product._id)}

@@ -5,6 +5,7 @@ import { MdClose } from "react-icons/md";
 import useCart from "../Hooks/useCart";
 import useAxios from "../Hooks/useAxios";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const CartSidebar = ({ isOpen = false, onClose = () => {} }) => {
   const [cart, refetch] = useCart();
@@ -169,9 +170,11 @@ const CartSidebar = ({ isOpen = false, onClose = () => {} }) => {
               </span>
             </div>
 
-            <button className="w-full bg-[#fcd0c3] shadow  py-3 rounded text-sm font-semibold tracking-wide hover:bg-slate-800 transition">
-              Go to Checkout
-            </button>
+            <Link to={'/payment'}>
+              <button className="w-full bg-[#fcd0c3] shadow  py-3 rounded text-sm font-semibold tracking-wide hover:bg-slate-800 transition">
+                Go to Checkout
+              </button>
+            </Link>
 
             <button
               onClick={onClose}
@@ -185,10 +188,7 @@ const CartSidebar = ({ isOpen = false, onClose = () => {} }) => {
 
       {/* Overlay */}
       {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/35 z-[55]"
-          onClick={onClose}
-        />
+        <div className="fixed inset-0 bg-black/35 z-[55]" onClick={onClose} />
       )}
     </>
   );

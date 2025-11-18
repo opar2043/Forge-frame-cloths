@@ -25,6 +25,7 @@ import Order from './Components/Dashboard/Order/Order.jsx';
 import AllThing from './Components/Dashboard/Admin/AllThing.jsx';
 import AuthProvider from './Components/Firebase/AuthProvider.jsx';
 import CategoryProduct from './Components/Products/Category/CategoryProduct.jsx';
+import Payment from './Components/Dashboard/Order/Payment.jsx';
 
 const queryClient = new QueryClient()
 
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: '/dresses' ,
         element: <Products></Products>
+      },
+      {
+        path: '/payment' ,
+        element: <Payment></Payment>
       },
       {
         path: '/view/:id',

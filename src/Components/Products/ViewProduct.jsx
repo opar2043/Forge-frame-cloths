@@ -241,7 +241,7 @@ const ViewProduct = () => {
                 {title}
               </h1>
               <p className="mt-3 text-2xl font-semibold text-gray-900">
-                ${price}
+                £{price}
               </p>
             </div>
 

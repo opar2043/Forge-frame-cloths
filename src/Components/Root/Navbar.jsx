@@ -118,10 +118,9 @@ const Navbar = () => {
   return (
     <header className="w-full bg-[#F9F6F2]">
       <div className="h-[1px] w-full bg-black/60" />
-      <div className="text-center flex justify-between px-3 md:px-10 font-extrabold text-sm tracking-wide py-1 text-slate-900">
-        <p>15% OFF SITEWIDE USE CODE: GIFT15</p>
-        <p>FREE SHIPPING OVER $89</p>
-        <p>BLACK FRIDAY – LOWEST PRICE OF THE YEAR</p>
+      <div className="text-center px-3 md:px-10 font-extrabold text-sm tracking-wide py-1 text-slate-900">
+
+        FREE SHIPPING OVER $89
       </div>
 
       {/* Cart Sidebar */}
