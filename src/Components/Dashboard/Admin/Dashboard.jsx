@@ -14,7 +14,6 @@ import AllThing from "./AllThing";
 const links = [
   { label: "Overview", to: "/dashboard", icon: <FiHome /> },
   { label: "Add Product", to: "/dashboard/add-product", icon: <FiPlusCircle /> },
-  { label: "Edit Product", to: "/dashboard/edit-product", icon: <FiEdit3 /> },
   { label: "All Products", to: "/dashboard/all-product", icon: <FiBox /> },
   { label: "Users", to: "/dashboard/users", icon: <FiUsers /> },
   { label: "Orders", to: "/dashboard/orders", icon: <FiShoppingBag /> },

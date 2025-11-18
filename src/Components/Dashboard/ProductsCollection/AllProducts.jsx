@@ -1,54 +1,76 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import useAxios from "../../Hooks/useAxios";
+import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
+import useProducts from "../../Hooks/useProducts";
 
-const initialProducts = [
-  {
-    id: "newin-catharine-maxi-brown",
-    name: "Catharine Floral Lace Sheer Maxi Dress",
-    price: 109,
-    currency: "USD",
-    category: "New in",
-    images: [
-      "https://media.istockphoto.com/id/1440977634/photo/vertical-shot-of-the-beautiful-pink-dress-isolated-on-the-white-background.jpg?b=1&s=612x612&w=0&k=20&c=4_piA2edAWWWQ7VyUl7hWJy32yU4xuLE1-iKvKNm2Fk=",
-    ],
-  },
-  {
-    id: "abaya-elegant-black-open",
-    name: "Elegant Black Open Abaya",
-    price: 89,
-    currency: "USD",
-    category: "Abayas",
-    images: [
-      "https://images.pexels.com/photos/1148957/pexels-photo-1148957.jpeg",
-    ],
-  },
-  {
-    id: "top-classic-white-shirt",
-    name: "Classic Tailored White Shirt",
-    price: 49,
-    currency: "USD",
-    category: "Tops /shirts",
-    images: [
-      "https://images.pexels.com/photos/995978/pexels-photo-995978.jpeg",
-    ],
-  },
-  // 👉 continue adding the rest of your products here using the same shape
-];
+const getPriceNumber = (price) => {
+  if (typeof price === "number") return price;
+  if (Array.isArray(price)) return Number(price[0] || 0);
+  if (price && typeof price === "object") {
+    if (price.$numberInt) return Number(price.$numberInt);
+    if (price.$numberDecimal) return Number(price.$numberDecimal);
+  }
+  return 0;
+};
 
 const AllProducts = () => {
-  const [products, setProducts] = useState(initialProducts);
+  // const [products, setProducts] = useState([]);
+  const [products, refetch] = useProducts();
+  const axiosSecure = useAxios();
 
-  const handleEdit = (id) => {
-    // later: navigate(`/dashboard/edit-product/${id}`)
-    console.log("Edit product:", id);
-  };
+  // useEffect(() => {
+  //   fetch("/products.json")
+  //     .then((res) => res.json())
+  //     .then((data) => setProducts(data || []));
+  // }, []);
 
-  const handleDelete = (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this product?"
-    );
-    if (!confirmDelete) return;
 
-    setProducts((prev) => prev.filter((p) => p.id !== id));
+
+  const handleDelete = async (id) => {
+    try {
+      const result = await Swal.fire({
+        title: "Delete this product?",
+        text: "This action cannot be undone.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#e11d48",
+        cancelButtonColor: "#6b7280",
+        confirmButtonText: "Yes, delete it",
+      });
+
+      if (!result.isConfirmed) return;
+
+      const res = await axiosSecure.delete(`/products/${id}`);
+
+      // ✅ typical pattern: res.data.deletedCount
+      if (res?.data?.deletedCount > 0) {
+        // remove from UI
+
+        Swal.fire({
+          title: "Deleted!",
+          text: "Product has been removed.",
+          icon: "success",
+          timer: 1200,
+          showConfirmButton: false,
+        });
+
+        refetch();
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "Could not delete the product.",
+          icon: "error",
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        title: "Error",
+        text: "Something went wrong.",
+        icon: "error",
+      });
+    }
   };
 
   return (
@@ -56,18 +78,14 @@ const AllProducts = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
         <div>
-          <h2 className="text-lg font-semibold text-slate-900">
-            All Products
-          </h2>
+          <h2 className="text-lg font-semibold text-slate-900">All Products</h2>
           <p className="text-sm text-slate-500">
             Manage your clothing catalog: edit details or remove items.
           </p>
         </div>
         <p className="text-xs text-slate-400">
           Total products:{" "}
-          <span className="font-medium text-slate-600">
-            {products.length}
-          </span>
+          <span className="font-medium text-slate-600">{products?.length}</span>
         </p>
       </div>
 
@@ -84,79 +102,85 @@ const AllProducts = () => {
             </tr>
           </thead>
           <tbody>
-            {products.map((product, idx) => {
-              const img =
-                Array.isArray(product.images) && product.images.length > 0
-                  ? product.images[0]
-                  : "";
+            {products &&
+              products?.map((product, idx) => {
+                const img =
+                  Array.isArray(product.images) && product.images.length > 0
+                    ? product.images[0]
+                    : "";
 
-              return (
-                <tr
-                  key={product.id}
-                  className="border-b border-slate-100 last:border-0 hover:bg-slate-50/70"
-                >
-                  <td className="px-3 py-2 text-slate-500 align-middle">
-                    {idx + 1}
-                  </td>
+                const priceNumber = getPriceNumber(product.price);
 
-                  {/* Product cell (image + name) */}
-                  <td className="px-3 py-2">
-                    <div className="flex items-center gap-3">
-                      {img && (
-                        <img
-                          src={img}
-                          alt={product.name}
-                          className="w-12 h-16 object-cover rounded-md border border-slate-100 bg-slate-50"
-                        />
-                      )}
-                      <div>
-                        <p className="font-medium text-slate-900 line-clamp-2">
-                          {product.name}
-                        </p>
-                        {product.id && (
-                          <p className="text-xs text-slate-400 mt-0.5">
-                            ID: {product.id}
-                          </p>
+                return (
+                  <tr
+                    key={product.id}
+                    className="border-b border-slate-100 last:border-0 hover:bg-slate-50/70"
+                  >
+                    <td className="px-3 py-2 text-slate-500 align-middle">
+                      {idx + 1}
+                    </td>
+
+                    {/* Product cell (image + name) */}
+                    <td className="px-3 py-2">
+                      <div className="flex items-center gap-3">
+                        {img && (
+                          <img
+                            src={img}
+                            alt={product.name}
+                            className="w-12 h-16 object-cover rounded-md border border-slate-100 bg-slate-50"
+                          />
                         )}
+                        <div>
+                          <p className="font-medium text-slate-900 line-clamp-2">
+                            {product.name}
+                          </p>
+                          {product.id && (
+                            <p className="text-xs text-slate-400 mt-0.5">
+                              ID: {product.id}
+                            </p>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  </td>
+                    </td>
 
-                  {/* Category */}
-                  <td className="px-3 py-2 align-middle">
-                    <span className="inline-flex items-center px-2.5 py-1 text-xs rounded bg-slate-50 text-slate-700 border border-slate-100">
-                      {product.category}
-                    </span>
-                  </td>
+                    {/* Category */}
+                    <td className="px-3 py-2 align-middle">
+                      <span className="inline-flex items-center px-2.5 py-1 text-xs rounded bg-slate-50 text-slate-700 border border-slate-100">
+                        {product.category}
+                      </span>
+                    </td>
 
-                  {/* Price */}
-                  <td className="px-3 py-2 align-middle text-slate-800">
-                    {product.currency === "USD" ? "$" : ""}
-                    {Number(product.price).toFixed(2)}
-                  </td>
+                    {/* Price */}
+                    <td className="px-3 py-2 align-middle text-slate-800">
+                      {product.currency === "USD" ? "$" : ""}
+                      {priceNumber.toFixed(2)}
+                    </td>
 
-                  {/* Actions */}
-                  <td className="px-3 py-2 align-middle">
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => handleEdit(product.id)}
-                        className="px-3 py-1.5 text-xs rounded border border-slate-200 text-slate-700 hover:bg-[#F9F6F2] transition-colors"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDelete(product.id)}
-                        className="px-3 py-1.5 text-xs rounded border border-red-200 text-red-600 hover:bg-red-50 transition-colors"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
+                    {/* Actions */}
+                    <td className="px-3 py-2 align-middle">
+                      <div className="flex items-center gap-2">
+                        <Link to={`/edit-product/${product._id}`}>
+                          <button
+                            
+                            className="px-3 py-1.5 text-xs rounded border border-slate-200 text-slate-700 hover:bg-[#F9F6F2] transition-colors"
+                          >
+                            Edit
+                          </button>
+                        </Link>
 
-            {products.length === 0 && (
+                        <button
+                          onClick={() => handleDelete(product._id)}
+                          className="px-3 py-1.5 text-xs rounded border border-red-200 text-red-600 hover:bg-red-50 transition-colors"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+
+            {products?.length === 0 && (
               <tr>
                 <td
                   colSpan={5}

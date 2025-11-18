@@ -108,7 +108,7 @@ const EditProduct = () => {
   };
 
   // 🔎 find current product by id (Mongo usually uses _id)
-  const currentProduct = products?.find((p) => p._id === id || p.id === id);
+  const currentProduct = products?.find((p) => p._id === id || p._id === id);
 
   // ✅ pre-fill when product is loaded
   useEffect(() => {

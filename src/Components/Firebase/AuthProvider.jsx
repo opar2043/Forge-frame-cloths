@@ -1,6 +1,8 @@
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import auth from "./firebase.config";
+import useAxios from "../Hooks/useAxios";
+import Swal from "sweetalert2";
 
 
 export const AuthContext = createContext();
@@ -15,6 +17,31 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, pass);
   };
+
+
+  // * add to cart function
+
+  const axiosSecure = useAxios()
+    async function handleCart(item) {
+      const res = await axiosSecure.post("/cart", item);
+      if (res?.data?.insertedId) {
+        Swal.fire({
+          title: "Added!",
+          text: `${item.name} added to your cart.`,
+          icon: "success",
+          timer: 1200,
+          showConfirmButton: false,
+        });
+      } else {
+        Swal.fire({
+          title: "Already in Cart",
+          text: `${item.name} is already in your cart.`,
+          icon: "info",
+          timer: 1200,
+          showConfirmButton: false,
+        });
+      }
+    }
 
   // Login existing user
   const handleLogin = (email, pass) => {
@@ -61,7 +88,8 @@ const AuthProvider = ({ children }) => {
     resetPass,
     setUser,
     quantities, setQuantities
-    , opar
+    , opar,
+    handleCart
   };
 
   return (

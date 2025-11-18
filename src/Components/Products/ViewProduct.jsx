@@ -3,6 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaCircle } from "react-icons/fa";
+import Swal from "sweetalert2";
+import useAxios from "../Hooks/useAxios";
+import useAuth from "../Hooks/useAuth";
 
 const colorMap = {
   Brown: "#8B6F47",
@@ -21,9 +24,20 @@ const colorMap = {
   Emerald: "#006C5B",
 };
 
+// Helpers
+const getPriceNumber = (price) => {
+  if (typeof price === "number") return price;
+  if (Array.isArray(price)) return Number(price[0] || 0);
+  if (price && typeof price === "object") {
+    if (price.$numberInt) return Number(price.$numberInt);
+    if (price.$numberDecimal) return Number(price.$numberDecimal);
+  }
+  return 0;
+};
+
 const ViewProduct = () => {
   const { id } = useParams();
-
+  const {handleCart} = useAuth()
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -44,23 +58,53 @@ const ViewProduct = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  const product = products.find((pr) => String(pr.id) === String(id));
+  const product = products.find(
+    (pr) => String(pr.id) === String(id)
+  );
 
   useEffect(() => {
     if (product) {
       setSelectedImageIndex(0);
-      setSelectedColor(
-        Array.isArray(product.color) && product.color.length > 0
-          ? product.color[0]
-          : ""
-      );
-      setSelectedSize(
-        Array.isArray(product.sizes) && product.sizes.length > 0
-          ? product.sizes[0]
-          : ""
-      );
+
+      const colorArr = Array.isArray(product.color)
+        ? product.color
+        : product.color
+        ? [product.color]
+        : [];
+      setSelectedColor(colorArr[0] || "");
+
+      const sizeArr = Array.isArray(product.size)
+        ? product.size
+        : product.size
+        ? [product.size]
+        : [];
+      setSelectedSize(sizeArr[0] || "");
     }
   }, [product]);
+
+  // * handle add to cart
+  const axiosSecure = useAxios();
+
+  // async function handleCart(item) {
+  //   const res = await axiosSecure.post("/cart", item);
+  //   if (res?.data?.insertedId) {
+  //     Swal.fire({
+  //       title: "Added!",
+  //       text: `${item.name} added to your cart.`,
+  //       icon: "success",
+  //       timer: 1200,
+  //       showConfirmButton: false,
+  //     });
+  //   } else {
+  //     Swal.fire({
+  //       title: "Already in Cart",
+  //       text: `${item.name} is already in your cart.`,
+  //       icon: "info",
+  //       timer: 1200,
+  //       showConfirmButton: false,
+  //     });
+  //   }
+  // }
 
   if (loading) {
     return (
@@ -87,23 +131,37 @@ const ViewProduct = () => {
   }
 
   const images = Array.isArray(product.images) ? product.images : [];
-  const title = product.name;
-  const price = Number(product.price || 0).toFixed(2);
-  const colors = Array.isArray(product.color) ? product.color : [];
-  const sizes = Array.isArray(product.sizes) ? product.sizes : [];
+  const title = Array.isArray(product.name)
+    ? product.name[0]
+    : product.name || "";
+  const price = Number(getPriceNumber(product.price)).toFixed(2);
+
+  const colors = Array.isArray(product.color)
+    ? product.color
+    : product.color
+    ? [product.color]
+    : [];
+
+  const sizes = Array.isArray(product.size)
+    ? product.size
+    : product.size
+    ? [product.size]
+    : [];
 
   const handleColorClick = (c) => {
     setSelectedColor(c);
-    // if you want, you could change selectedImageIndex here depending on color
-    // e.g., setSelectedImageIndex(0);
   };
 
   const handleAddToCart = () => {
-    console.log("Add to cart:", {
+    const cartItem = {
       id: product.id,
+      name: title,
+      price: getPriceNumber(product.price),
       color: selectedColor,
       size: selectedSize,
-    });
+      image : images 
+    };
+    handleCart(cartItem);
   };
 
   return (
@@ -213,7 +271,8 @@ const ViewProduct = () => {
                       <span
                         className="inline-block w-6 h-6 rounded-full"
                         style={{
-                          backgroundColor: colorMap[c] || c.toLowerCase(),
+                          backgroundColor:
+                            colorMap[c] || c.toLowerCase(),
                         }}
                       />
                     </motion.button>
@@ -226,8 +285,9 @@ const ViewProduct = () => {
             {sizes.length > 0 && (
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-semibold text-gray-800">Size</p>
-                  {/* optional: link to size chart */}
+                  <p className="text-sm font-semibold text-gray-800">
+                    Size
+                  </p>
                   <button className="text-xs text-gray-600 underline underline-offset-2">
                     Size chart
                   </button>
@@ -263,13 +323,12 @@ const ViewProduct = () => {
                 className="w-full py-3 rounded-md font-semibold tracking-wide"
                 style={{
                   backgroundColor: "#1D1E20",
-                  color: "#FFFFFF", // change to "#1D1E20" if you really want same color
+                  color: "#FFFFFF",
                 }}
               >
                 Add to cart
               </motion.button>
 
-              {/* placeholder for likes / icons etc */}
               <div className="flex items-center gap-3 text-xs text-gray-500">
                 <span>Free shipping over $89</span>
               </div>
@@ -278,8 +337,10 @@ const ViewProduct = () => {
             {/* Description */}
             <div className="border-t border-gray-200 pt-4 text-sm text-gray-700 space-y-2">
               <p className="font-semibold">Product Description</p>
+              <p>{product.description}</p>
               <p>
-                Fit: <span className="font-normal">{product.fit}</span>
+                Fit:{" "}
+                <span className="font-normal">{product.fit}</span>
               </p>
               {product.materials && (
                 <p>
@@ -292,12 +353,14 @@ const ViewProduct = () => {
               {product.occasion && (
                 <p>
                   Occasion:{" "}
-                  <span className="font-normal">{product.occasion}</span>
+                  <span className="font-normal">
+                    {product.occasion}
+                  </span>
                 </p>
               )}
               <p className="text-xs text-gray-500 mt-2">
-                Color may vary slightly due to lighting. Please refer to our
-                size chart for the best fit.
+                Color may vary slightly due to lighting. Please refer
+                to our size chart for the best fit.
               </p>
             </div>
           </motion.div>

@@ -1,391 +1,119 @@
 [
   {
-    "id": "newin-catharine-maxi-brown",
-    "name": "Catharine Floral Lace Sheer Maxi Dress",
-    "slug": "catharine-floral-lace-sheer-maxi-brown",
-    "price": 109,
+
+    "name": "Dress",
+    "description": "Elegant slim-fit slip dress.",
+    "price": { "$numberInt": "20" },
     "currency": "USD",
-    "rating": 4.7,
-    "reviews_count": 38,
-    "category": "New in",
-    "subcategory": "Maxi Dress",
-    "audience": ["Women"],
-    "images": [
-      "https://media.istockphoto.com/id/1440977634/photo/vertical-shot-of-the-beautiful-pink-dress-isolated-on-the-white-background.jpg?b=1&s=612x612&w=0&k=20&c=4_piA2edAWWWQ7VyUl7hWJy32yU4xuLE1-iKvKNm2Fk=",
-      "https://media.istockphoto.com/id/1440977634/photo/vertical-shot-of-the-beautiful-pink-dress-isolated-on-the-white-background.jpg?b=1&s=612x612&w=0&k=20&c=4_piA2edAWWWQ7VyUl7hWJy32yU4xuLE1-iKvKNm2Fk="
-    ],
-    "sizes": ["S", "M", "L", "XL"],
-    "color": ["Brown"],
-    "materials": ["Polyester", "Premium Lace"],
-    "fit": "Relaxed",
-    "occasion": "Evening / Event",
-    "tags": ["lace", "sheer", "new"],
-    "isTrending": true,
-    "isLimitedEdition": false,
-    "isOnSale": false,
-    "reviews": [
-      {
-        "user": "Amina",
-        "rating": 5,
-        "comment": "Perfect for an evening event, the lace is beautiful."
-      },
-      {
-        "user": "Sara",
-        "rating": 4,
-        "comment": "Lovely fit, slightly long for my height."
-      }
-    ]
-  },
-  {
-    "id": "abaya-elegant-black-open",
-    "name": "Elegant Black Open Abaya",
-    "slug": "elegant-black-open-abaya",
-    "price": 89,
-    "currency": "USD",
-    "rating": 4.8,
-    "reviews_count": 56,
-    "category": "Abayas",
-    "subcategory": "Open Abaya",
-    "audience": ["Women"],
-    "images": [
-      "https://images.pexels.com/photos/1148957/pexels-photo-1148957.jpeg",
-      "https://example.com/abayas/elegant-black-open-2.jpg"
-    ],
-    "sizes": ["S", "M", "L", "XL"],
+    "category": "Trousers",
+    "size": ["SM", "S"],
     "color": ["Black"],
-    "materials": ["Crepe"],
-    "fit": "Modest",
-    "occasion": "Everyday / Occasion",
-    "tags": ["abaya", "black", "classic"],
-    "isTrending": true,
-    "isLimitedEdition": false,
-    "isOnSale": false,
-    "reviews": [
-      {
-        "user": "Noura",
-        "rating": 5,
-        "comment": "Flows beautifully and feels high quality."
-      }
-    ]
-  },
-  {
-    "id": "top-classic-white-shirt",
-    "name": "Classic Tailored White Shirt",
-    "slug": "classic-tailored-white-shirt",
-    "price": 49,
-    "currency": "USD",
-    "rating": 4.6,
-    "reviews_count": 72,
-    "category": "Tops /shirts",
-    "subcategory": "Shirt",
-    "audience": ["Women"],
-    "images": [
-      "https://images.pexels.com/photos/995978/pexels-photo-995978.jpeg",
-      "https://example.com/tops/classic-white-shirt-2.jpg"
-    ],
-    "sizes": ["XS", "S", "M", "L", "XL"],
-    "color": ["White"],
-    "materials": ["Cotton", "Elastane"],
-    "fit": "Tailored",
-    "occasion": "Work / Casual",
-    "tags": ["wardrobe-staple", "office"],
-    "isTrending": false,
-    "isLimitedEdition": false,
-    "isOnSale": false,
-    "reviews": [
-      {
-        "user": "Layla",
-        "rating": 4,
-        "comment": "Great for work, fabric is soft."
-      }
-    ]
-  },
-  {
-    "id": "dress-satin-slip-emerald",
-    "name": "Satin Slip Dress Emerald",
-    "slug": "satin-slip-dress-emerald",
-    "price": 119,
-    "currency": "USD",
-    "rating": 4.9,
-    "reviews_count": 84,
-    "category": "Dresses",
+    "materials": ["Cotton", "Polyester"],
+    "fit": "Slim",
+    "tags": ["trending", "sale"],
     "subcategory": "Slip Dress",
     "audience": ["Women"],
     "images": [
-      "https://images.pexels.com/photos/1148957/pexels-photo-1148957.jpeg",
-      "https://example.com/dresses/satin-slip-emerald-2.jpg"
+      "https://www.lerevecraze.com/wp-content/uploads/2025/02/9032467e-48e5-4833-8e5e-244c63ae67c0-300x400.jpg",
+      "https://www.lerevecraze.com/wp-content/uploads/2025/03/7ee0b3ed-2423-48de-9770-d53648fda6c0-300x400.jpgg"
     ],
-    "sizes": ["S", "M", "L"],
-    "color": ["Emerald"],
-    "materials": ["Polyester Satin"],
-    "fit": "Slim",
-    "occasion": "Party / Evening",
-    "tags": ["satin", "party", "trending"],
-    "isTrending": true,
-    "isLimitedEdition": false,
-    "isOnSale": false,
-    "reviews": [
-      {
-        "user": "Hana",
-        "rating": 5,
-        "comment": "Color is stunning in real life."
-      }
-    ]
-  },
-  {
-    "id": "coords-linen-beige-set",
-    "name": "Linen Relaxed Co-ord Set",
-    "slug": "linen-relaxed-coord-set",
-    "price": 99,
-    "currency": "USD",
-    "rating": 4.5,
-    "reviews_count": 35,
-    "category": "Co Ords",
-    "subcategory": "Linen Set",
-    "audience": ["Women"],
-    "images": [
-      "https://media.istockphoto.com/id/1440977634/photo/vertical-shot-of-the-beautiful-pink-dress-isolated-on-the-white-background.jpg?b=1&s=612x612&w=0&k=20&c=4_piA2edAWWWQ7VyUl7hWJy32yU4xuLE1-iKvKNm2Fk=",
-      "https://example.com/coords/linen-beige-set-2.jpg"
-    ],
-    "sizes": ["S", "M", "L", "XL"],
-    "color": ["Beige"],
-    "materials": ["Linen", "Cotton"],
-    "fit": "Relaxed",
-    "occasion": "Casual / Travel",
-    "tags": ["co-ord", "summer"],
-    "isTrending": false,
-    "isLimitedEdition": false,
-    "isOnSale": false,
-    "reviews": [
-      {
-        "user": "Zara",
-        "rating": 4,
-        "comment": "Very comfortable for warm weather."
-      }
-    ]
-  },
-  {
-    "id": "loungewear-soft-rib-set-mocha",
-    "name": "Soft Rib Loungewear Set",
-    "slug": "soft-rib-loungewear-set-mocha",
-    "price": 79,
-    "currency": "USD",
-    "rating": 4.7,
-    "reviews_count": 44,
-    "category": "Lounge wear",
-    "subcategory": "Set",
-    "audience": ["Women"],
-    "images": [
-      "https://images.pexels.com/photos/995978/pexels-photo-995978.jpeg",
-      "https://example.com/loungewear/soft-rib-mocha-2.jpg"
-    ],
-    "sizes": ["S", "M", "L"],
-    "color": ["Mocha"],
-    "materials": ["Viscose", "Elastane"],
-    "fit": "Relaxed",
-    "occasion": "Home / Casual",
-    "tags": ["comfy", "soft"],
-    "isTrending": true,
-    "isLimitedEdition": false,
-    "isOnSale": true,
-    "reviews": [
-      {
-        "user": "Maryam",
-        "rating": 5,
-        "comment": "So soft, I wear it every day."
-      }
-    ]
-  },
-  {
-    "id": "trousers-wide-leg-black",
-    "name": "High-Waist Wide Leg Trousers",
-    "slug": "high-waist-wide-leg-trousers-black",
-    "price": 59,
-    "currency": "USD",
-    "rating": 4.6,
-    "reviews_count": 63,
-    "category": "Trousers",
-    "subcategory": "Wide Leg",
-    "audience": ["Women"],
-    "images": [
-      "https://media.istockphoto.com/id/1440977634/photo/vertical-shot-of-the-beautiful-pink-dress-isolated-on-the-white-background.jpg?b=1&s=612x612&w=0&k=20&c=4_piA2edAWWWQ7VyUl7hWJy32yU4xuLE1-iKvKNm2Fk=",
-      "https://example.com/trousers/wide-leg-black-2.jpg"
-    ],
-    "sizes": ["XS", "S", "M", "L", "XL"],
-    "color": ["Black"],
-    "materials": ["Polyester", "Elastane"],
-    "fit": "Wide Leg",
-    "occasion": "Office / Casual",
-    "tags": ["wide-leg", "office"],
-    "isTrending": false,
-    "isLimitedEdition": false,
-    "isOnSale": true,
-    "reviews": [
-      {
-        "user": "Rania",
-        "rating": 4,
-        "comment": "Very flattering cut and length."
-      }
-    ]
-  },
-  {
-    "id": "outerwear-longline-trench-stone",
-    "name": "Longline Trench Coat",
-    "slug": "longline-trench-coat-stone",
-    "price": 139,
-    "currency": "USD",
-    "rating": 4.8,
-    "reviews_count": 51,
-    "category": "Outerwear",
-    "subcategory": "Trench Coat",
-    "audience": ["Women"],
-    "images": [
-      "https://images.pexels.com/photos/995978/pexels-photo-995978.jpeg",
-      "https://example.com/outerwear/longline-trench-stone-2.jpg"
-    ],
-    "sizes": ["S", "M", "L"],
-    "color": ["Stone"],
-    "materials": ["Cotton Blend"],
-    "fit": "Regular",
-    "occasion": "Work / City",
-    "tags": ["trench", "classic"],
-    "isTrending": false,
-    "isLimitedEdition": false,
-    "isOnSale": false,
-    "reviews": [
-      {
-        "user": "Iman",
-        "rating": 5,
-        "comment": "Feels expensive and looks very chic."
-      }
-    ]
-  },
-  {
-    "id": "accessory-mini-shoulder-bag-cream",
-    "name": "Mini Shoulder Bag Cream",
-    "slug": "mini-shoulder-bag-cream",
-    "price": 39,
-    "currency": "USD",
-    "rating": 4.5,
-    "reviews_count": 29,
-    "category": "Accessories",
-    "subcategory": "Bag",
-    "audience": ["Women"],
-    "images": [
-      "https://images.pexels.com/photos/995978/pexels-photo-995978.jpeg",
-      "https://example.com/accessories/mini-shoulder-bag-cream-2.jpg"
-    ],
-    "sizes": [],
-    "color": ["Cream"],
-    "materials": ["PU Leather"],
-    "fit": "One Size",
-    "occasion": "Everyday",
-    "tags": ["bag", "mini"],
-    "isTrending": true,
-    "isLimitedEdition": false,
-    "isOnSale": false,
-    "reviews": [
-      {
-        "user": "Aisha",
-        "rating": 4,
-        "comment": "Cute and small, fits essentials only."
-      }
-    ]
-  },
-  {
-    "id": "bestseller-catharine-maxi-navy",
-    "name": "Catharine Floral Lace Maxi Dress",
-    "slug": "catharine-floral-lace-maxi-navy",
-    "price": 109,
-    "currency": "USD",
-    "rating": 4.9,
-    "reviews_count": 130,
-    "category": "Best sellers",
-    "subcategory": "Maxi Dress",
-    "audience": ["Women"],
-    "images": [
-      "https://images.pexels.com/photos/1148957/pexels-photo-1148957.jpeg",
-      "https://example.com/catharine/navy-2.jpg"
-    ],
-    "sizes": ["S", "M", "L", "XL"],
-    "color": ["Navy"],
-    "materials": ["Polyester", "Lace"],
-    "fit": "Relaxed",
-    "occasion": "Occasion / Event",
-    "tags": ["bestseller", "event"],
-    "isTrending": true,
-    "isLimitedEdition": false,
-    "isOnSale": false,
-    "reviews": [
-      {
-        "user": "Samira",
-        "rating": 5,
-        "comment": "My favorite dress from your store!"
-      }
-    ]
-  },
-  {
-    "id": "sale-dusty-pink-maxi",
-    "name": "Dusty Pink Chiffon Maxi Dress",
-    "slug": "dusty-pink-chiffon-maxi-dress",
-    "price": 89,
-    "currency": "USD",
-    "rating": 4.4,
-    "reviews_count": 40,
-    "category": "Sale",
-    "subcategory": "Maxi Dress",
-    "audience": ["Women"],
-    "images": [
-      "https://images.pexels.com/photos/995978/pexels-photo-995978.jpeg",
-      "https://example.com/dresses/dusty-pink-maxi-2.jpg"
-    ],
-    "sizes": ["S", "M", "L"],
-    "color": ["Dusty Pink"],
-    "materials": ["Chiffon"],
-    "fit": "Flowy",
-    "occasion": "Occasion / Event",
-    "tags": ["sale", "chiffon"],
-    "isTrending": false,
-    "isLimitedEdition": false,
-    "isOnSale": true,
-    "reviews": [
-      {
-        "user": "Yasmin",
-        "rating": 4,
-        "comment": "Great for weddings, color is soft and pretty."
-      }
-    ]
-  },
-  {
-    "id": "limited-edition-champagne-lace-gown",
-    "name": "Champagne Lace Evening Gown",
-    "slug": "champagne-lace-evening-gown",
-    "price": 159,
-    "currency": "USD",
-    "rating": 4.9,
-    "reviews_count": 22,
-    "category": "Limited edition ❤",
-    "subcategory": "Evening Gown",
-    "audience": ["Women"],
-    "images": [
-      "https://images.pexels.com/photos/1148957/pexels-photo-1148957.jpeg",
-      "https://example.com/dresses/champagne-lace-gown-2.jpg"
-    ],
-    "sizes": ["S", "M", "L"],
-    "color": ["Champagne"],
-    "materials": ["Lace", "Satin"],
-    "fit": "Slim",
-    "occasion": "Black Tie / Event",
-    "tags": ["limited", "evening", "premium"],
+    "featuredImageIndex": { "$numberInt": "0" },
     "isTrending": true,
     "isLimitedEdition": true,
     "isOnSale": false,
-    "reviews": [
-      {
-        "user": "Noor",
-        "rating": 5,
-        "comment": "Feels like a designer gown, absolutely stunning."
-      }
-    ]
+    "reviews": [],
+    "id": "product-1763316622246",
+    "slug": "dress",
+    "rating": { "$numberInt": "0" },
+    "reviews_count": { "$numberInt": "0" },
+    "featured_image": "https://www.lerevecraze.com/wp-content/uploads/2025/02/9032467e-48e5-4833-8e5e-244c63ae67c0-300x400.jpg"
+  },
+  {
+
+    "name": "Satin Slip Dress",
+    "description": "Soft satin slip dress perfect for evening outings.",
+    "price": { "$numberInt": "450" },
+    "currency": "USD",
+    "category": "Dresses",
+    "size": ["S", "M", "L"],
+    "color": ["Champagne"],
+    "materials": ["Satin", "Polyester"],
+    "fit": "Regular",
+    "tags": ["new", "party"],
+    "subcategory": "Slip Dress",
+    "audience": ["Women"],
+    "images": [
+      "https://www.lerevecraze.com/wp-content/uploads/2024/12/f0047881-5384-4eaf-88f6-409db5976123-300x400.jpg",
+      "https://www.lerevecraze.com/wp-content/uploads/2025/02/9032467e-48e5-4833-8e5e-244c63ae67c0-300x400.jpg"
+    ],
+    "featuredImageIndex": { "$numberInt": "0" },
+    "isTrending": true,
+    "isLimitedEdition": false,
+    "isOnSale": true,
+    "reviews": [],
+    "id": "product-1763316622247",
+    "slug": "satin-slip-dress",
+    "rating": { "$numberInt": "5" },
+    "reviews_count": { "$numberInt": "12" },
+    "featured_image": "https://www.lerevecraze.com/wp-content/uploads/2025/03/7ee0b3ed-2423-48de-9770-d53648fda6c0-300x400.jpg"
+  },
+
+  {
+
+    "name": "Black Slim Trousers",
+    "description": "Classic black slim-fit trousers for daily wear.",
+    "price": { "$numberInt": "300" },
+    "currency": "USD",
+    "category": "Trousers",
+    "size": ["S", "M", "L", "XL"],
+    "color": ["Black"],
+    "materials": ["Cotton", "Elastane"],
+    "fit": "Slim",
+    "tags": ["workwear", "basic"],
+    "subcategory": "Formal Trousers",
+    "audience": ["Women"],
+    "images": [
+      "https://www.lerevecraze.com/wp-content/uploads/2025/11/233033ae-258c-4e38-9c6f-22ca77402786.jpg",
+      "https://www.lerevecraze.com/wp-content/uploads/2025/11/d0c60034-41b4-4c15-a5e3-d6fbca37c511-300x400.jpg"
+    ],
+    "featuredImageIndex": { "$numberInt": "0" },
+    "isTrending": false,
+    "isLimitedEdition": false,
+    "isOnSale": true,
+    "reviews": [],
+    "id": "product-1763316622249",
+    "slug": "black-slim-trousers",
+    "rating": { "$numberInt": "4" },
+    "reviews_count": { "$numberInt": "15" },
+    "featured_image": "https://www.lerevecraze.com/wp-content/uploads/2025/10/a5ea36cb-4f7b-466a-88f4-02964a3352d8-300x400.jpg"
+  },
+  {
+
+    "name": "Oversized Hoodie",
+    "description": "Cozy oversized hoodie with front pocket.",
+    "price": { "$numberInt": "25" },
+    "currency": "USD",
+    "category": "Tops",
+    "size": ["M", "L", "XL"],
+    "color": ["Gray"],
+    "materials": ["Cotton", "Polyester"],
+    "fit": "Oversized",
+    "tags": ["casual", "streetwear"],
+    "subcategory": "Hoodie",
+    "audience": ["Women"],
+    "images": [
+      "https://www.lerevecraze.com/wp-content/uploads/2025/11/d0c60034-41b4-4c15-a5e3-d6fbca37c511-300x400.jpg",
+      "https://media.istockphoto.com/id/1440977634/photo/vertical-shot-of-the-beautiful-pink-dress-isolated-on-the-white-background.jpg?b=1&s=612x612&w=0&k=20&c=4_piA2edAWWWQ7VyUl7hWJy32yU4xuLE1-iKvKNm2Fk="
+    ],
+    "featuredImageIndex": { "$numberInt": "0" },
+    "isTrending": true,
+    "isLimitedEdition": false,
+    "isOnSale": false,
+    "reviews": [],
+    "id": "product-1763316622250",
+    "slug": "oversized-hoodie",
+    "rating": { "$numberInt": "5" },
+    "reviews_count": { "$numberInt": "200" },
+    "featured_image": "https://www.lerevecraze.com/wp-content/uploads/2025/10/a5ea36cb-4f7b-466a-88f4-02964a3352d8-300x400.jpg"
   }
 ]

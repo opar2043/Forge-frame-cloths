@@ -8,5 +8,4 @@ const axiosInstance = axios.create({
 const useAxios = () => {
   return axiosInstance;
 };
-
 export default useAxios;

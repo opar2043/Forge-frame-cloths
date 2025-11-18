@@ -14,7 +14,6 @@ const AddProducts = () => {
     name: "",
     description: "",
     price: "",
-    currency: "USD",
     category: "", // single category
     size: [], // array
     color: [],
@@ -274,7 +273,6 @@ const AddProducts = () => {
           name: "",
           description: "",
           price: "",
-          currency: "USD",
           category: "",
           size: [],
           color: [],

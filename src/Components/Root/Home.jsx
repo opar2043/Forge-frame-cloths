@@ -3,6 +3,9 @@ import Banner from '../Share/Banner'
 import Title from '../Share/Title';
 import MoreDetails from '../About/MoreDetails';
 import HomeProducts from '../Products/HomeProduct';
+import SwiperCard from '../Products/SwiperCard';
+import Review from '../Review/Review';
+import CategoryData from '../Products/Category/CategoryData';
 
 const Home = () => {
     const ban1 = 'https://marketplace.canva.com/EAFGKRRskMs/1/0/1600w/canva-brown-and-beige-minimalist-fashion-banner-lYcbGpUSVGo.jpg';
@@ -14,10 +17,13 @@ const Home = () => {
     <div>
         <Banner ban={ban1}></Banner>
         <Title head={'NEW'} head2={"IN"} para={'New Styles Drop Daily'}></Title>
+        {/* <CategoryData></CategoryData> */}
         <HomeProducts></HomeProducts>
         <Banner ban={ban2}></Banner>
          <Title head={'MEGA'} head2={"OFFER"} para={'Grab Your Item'}></Title>
         <Banner ban={ban3}></Banner>
+        <SwiperCard></SwiperCard>
+        <Review></Review>
         <MoreDetails></MoreDetails>
     </div>
   )

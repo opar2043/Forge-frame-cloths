@@ -24,6 +24,7 @@ import Users from './Components/Dashboard/Users/Users.jsx';
 import Order from './Components/Dashboard/Order/Order.jsx';
 import AllThing from './Components/Dashboard/Admin/AllThing.jsx';
 import AuthProvider from './Components/Firebase/AuthProvider.jsx';
+import CategoryProduct from './Components/Products/Category/CategoryProduct.jsx';
 
 const queryClient = new QueryClient()
 
@@ -50,12 +51,16 @@ const router = createBrowserRouter([
         element: <Wishlist></Wishlist>
       },
       {
-        path: '/dresses',
+        path: '/dresses' ,
         element: <Products></Products>
       },
       {
         path: '/view/:id',
         element: <ViewProduct></ViewProduct>
+      },
+      {
+        path: '/dresses/:category',
+        element: <CategoryProduct></CategoryProduct>
       },
     ]
   },
@@ -72,7 +77,7 @@ const router = createBrowserRouter([
       element: <AddProducts></AddProducts>
     },
     {
-      path: "/dashboard/edit-product",
+      path: "/dashboard/edit-product/:id",
       element: <EditProduct></EditProduct>
     },
     {
@@ -91,6 +96,7 @@ const router = createBrowserRouter([
       path: "/dashboard/all-thing",
       element: <AllThing></AllThing>
     },
+
   ]
   }
 ]);

@@ -1,9 +1,11 @@
-// Products.jsx
-import React, { useState, useMemo, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
-import ProductCard from "./ProductCard";
-import useProducts from "../../Components/Hooks/useProducts";
+import { motion } from "framer-motion";
+import ProductCard from "../ProductCard";
+import useProducts from "../../Hooks/useProducts";
+
+
 // Helpers: safely handle Mongo-style numbers
 const getPriceNumber = (price) => {
   if (typeof price === "number") return price;
@@ -30,13 +32,40 @@ const getPrimaryColor = (product) => {
   return null;
 };
 
-const Products = () => {
+// same slug logic as your Navbar (but without leading "/")
+const slugifyCategory = (s = "") =>
+  s
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^\w\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+
+const CategoryProduct = () => {
   const [expandedFilter, setExpandedFilter] = useState(null);
   const [activeFilters, setActiveFilters] = useState({});
   const [sortBy, setSortBy] = useState("recommended");
-  const [products] = useProducts()
+  // const [products, setProducts] = useState([]);
+  const { category } = useParams(); // e.g. "dresses", "trousers"
+  const [products , refetch] = useProducts()
 
 
+  console.log(products);
+
+  // ✅ First, scope products by category slug from URL
+  const categoryProducts = useMemo(() => {
+    if (!category) return products;
+
+    const param = category.toLowerCase();
+    return products.filter((p) => {
+      const catName = (p.category || "").toString();
+      const catSlug = slugifyCategory(catName);
+      // match either by slug ("dresses") or raw name ("Dresses")
+      return catSlug === param || catName.toLowerCase() === param;
+    });
+  }, [products, category]);
+
+  console.log(categoryProducts);
 
   const colorMap = {
     Brown: "#8B6F47",
@@ -55,10 +84,11 @@ const Products = () => {
     Emerald: "#006C5B",
   };
 
+  // ✅ Build filters based on categoryProducts (not all products)
   const filterData = useMemo(() => {
     const allColors = [
       ...new Set(
-        products
+        categoryProducts
           .map((p) => getPrimaryColor(p))
           .filter((c) => c && typeof c === "string")
       ),
@@ -68,7 +98,7 @@ const Products = () => {
       availability: {
         label: "Availability",
         items: [
-          { name: "In Stock", count: products.length },
+          { name: "In Stock", count: categoryProducts.length },
           { name: "Out of Stock", count: 0 },
         ],
       },
@@ -77,20 +107,20 @@ const Products = () => {
         items: [
           {
             name: "$0 - $80",
-            count: products.filter(
+            count: categoryProducts.filter(
               (p) => getPriceNumber(p.price) < 80
             ).length,
           },
           {
             name: "$80 - $120",
-            count: products.filter((p) => {
+            count: categoryProducts.filter((p) => {
               const val = getPriceNumber(p.price);
               return val >= 80 && val <= 120;
             }).length,
           },
           {
             name: "$120+",
-            count: products.filter(
+            count: categoryProducts.filter(
               (p) => getPriceNumber(p.price) > 120
             ).length,
           },
@@ -100,7 +130,7 @@ const Products = () => {
         label: "Color",
         items: allColors.map((color) => ({
           name: color,
-          count: products.filter(
+          count: categoryProducts.filter(
             (p) => getPrimaryColor(p) === color
           ).length,
           colorCode: colorMap[color],
@@ -110,7 +140,7 @@ const Products = () => {
         label: "Size",
         items: ["XS", "S", "M", "L", "XL"].map((size) => ({
           name: size,
-          count: products.filter((p) => {
+          count: categoryProducts.filter((p) => {
             const sizesArr = Array.isArray(p.size)
               ? p.size
               : p.size
@@ -121,10 +151,11 @@ const Products = () => {
         })),
       },
     };
-  }, [products, colorMap]);
+  }, [categoryProducts, colorMap]);
 
+  // ✅ Apply filters & sorting on top of categoryProducts
   const filteredProducts = useMemo(() => {
-    let result = [...products];
+    let result = [...categoryProducts];
 
     // Color filter
     if (activeFilters.color && activeFilters.color.length > 0) {
@@ -183,7 +214,7 @@ const Products = () => {
     }
 
     return result;
-  }, [products, activeFilters, sortBy]);
+  }, [categoryProducts, activeFilters, sortBy]);
 
   const handleFilterChange = (filterKey, itemName) => {
     setActiveFilters((prev) => ({
@@ -198,6 +229,11 @@ const Products = () => {
     setActiveFilters({});
     setSortBy("recommended");
   };
+
+  // 🔤 Display title: use category name or default
+  const displayCategoryName =
+    categoryProducts[0]?.category ||
+    (category ? category.replace(/-/g, " ") : "Our Collection");
 
   // Small dropdown component for the top bar
   const TopFilterDropdown = ({ filterKey, data }) => {
@@ -277,13 +313,15 @@ const Products = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
         {/* Top title / count */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-4">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-            Shop Our Collection
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 capitalize">
+            {displayCategoryName
+              ? `Shop ${displayCategoryName}`
+              : "Shop Our Collection"}
           </h1>
           <p className="text-sm text-gray-600">
             {Object.values(activeFilters).flat().length > 0
-              ? `Showing ${filteredProducts.length} of ${products.length} items`
-              : `Showing all ${products.length} items`}
+              ? `Showing ${filteredProducts.length} of ${categoryProducts.length} items`
+              : `Showing all ${categoryProducts.length} items`}
           </p>
         </div>
 
@@ -339,7 +377,7 @@ const Products = () => {
         ) : (
           <div className="text-center py-16">
             <p className="text-lg font-semibold text-gray-700">
-              No products found with selected filters.
+              No products found in  <span className="text-red-500">{category}</span> category.
             </p>
           </div>
         )}
@@ -348,4 +386,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default CategoryProduct;

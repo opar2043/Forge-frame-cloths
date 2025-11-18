@@ -2,22 +2,25 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import ProductCard from "./ProductCard";
+import useProducts from "../Hooks/useProducts";
 
 const HomeProducts = () => {
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    fetch("./products.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data);
-      })
-      .catch((err) => {
-        console.error("Error loading products.json", err);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch("./products.json")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setProducts(data);
+  //     })
+  //     .catch((err) => {
+  //       console.error("Error loading products.json", err);
+  //     });
+  // }, []);
 
-  const displayedProducts = products.slice(0, 8); // show only some on home
+  const [products] = useProducts();
+
+  const displayedProducts = products?.slice(0, 8);
 
   return (
     <div className="w-full bg-white">
@@ -54,9 +57,9 @@ const HomeProducts = () => {
         </div>
 
         {/* Products grid */}
-        {displayedProducts.length > 0 ? (
+        {displayedProducts?.length > 0 ? (
           <div className="grid gap-6 grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-            {displayedProducts.map((product, idx) => (
+            {displayedProducts?.map((product, idx) => (
               <ProductCard key={product.id} pro={product} index={idx} />
             ))}
           </div>

@@ -1,9 +1,25 @@
+// ProductCard.jsx
 import React from "react";
 import { motion } from "framer-motion";
 import { FaCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import useAuth from "../Hooks/useAuth";
+
+// Helper: safely get numeric price from different shapes
+const getPriceNumber = (price) => {
+  if (typeof price === "number") return price;
+  if (Array.isArray(price)) return Number(price[0] || 0);
+  if (price && typeof price === "object") {
+    if (price.$numberInt) return Number(price.$numberInt);
+    if (price.$numberDecimal) return Number(price.$numberDecimal);
+  }
+  return 0;
+};
 
 const ProductCard = ({ pro, index }) => {
+  const { handleCart } = useAuth();
+
   // name can be string or [string]
   const title = Array.isArray(pro?.name) ? pro.name[0] : pro?.name || "";
 
@@ -13,13 +29,8 @@ const ProductCard = ({ pro, index }) => {
     (Array.isArray(pro?.image) && pro.image[0]) ||
     "";
 
-  // price can be number or [number]
-  const rawPrice =
-    typeof pro?.price === "number"
-      ? pro.price
-      : Array.isArray(pro?.price)
-      ? pro.price[0]
-      : 0;
+  // price can be number / [number] / { $numberInt: "20" }
+  const rawPrice = getPriceNumber(pro?.price);
   const price = Number(rawPrice || 0).toFixed(2);
 
   // color is always an array (but support string fallback)
@@ -62,8 +73,47 @@ const ProductCard = ({ pro, index }) => {
     hover: { scale: 1.05 },
   };
 
+  // ✅ Add to cart handler
+  const handleAddToCart = (e) => {
+    // prevent the <Link> navigation when clicking the button
+    e.preventDefault();
+    e.stopPropagation();
+
+    const primaryColor = colors[0] || null;
+
+    const sizesArr = Array.isArray(pro?.size)
+      ? pro.size
+      : pro?.size
+      ? [pro.size]
+      : [];
+    const primarySize = sizesArr[0] || null;
+
+    const cartItem = {
+      // use whichever id you rely on in cart
+      id: pro.id || pro._id,
+      productId: pro._id || pro.id,
+      name: title,
+      price: getPriceNumber(pro?.price),
+      color: primaryColor,
+      size: primarySize,
+      image: img,
+      quantity: 1,
+    };
+
+    handleCart(cartItem);
+
+    // optional visual feedback
+    // Swal.fire({
+    //   icon: "success",
+    //   title: "Added to cart",
+    //   text: `${title} has been added to your cart.`,
+    //   timer: 1200,
+    //   showConfirmButton: false,
+    // });
+  };
+
   return (
-    <Link to={`/view/${pro?.id}`}>
+    <Link to={`/view/${pro?.id}`} className="block">
       <motion.article
         variants={cardVariants}
         initial="initial"
@@ -130,16 +180,14 @@ const ProductCard = ({ pro, index }) => {
             </div>
           </div>
 
-          {/* Button (optional – still keeps “Add to cart”) */}
+          {/* Button */}
           <motion.button
+            type="button"
+            onClick={handleAddToCart}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="mt-3 w-full rounded-md px-4 py-2 text-sm font-medium transition hover:opacity-95"
             style={{ backgroundColor: "#F6E0D9", color: "#2b2b2b" }}
-            onClick={(e) => {
-              e.preventDefault(); // so it doesn't navigate when clicking
-              console.log("Add to cart:", pro.id);
-            }}
           >
             Add to cart
           </motion.button>
