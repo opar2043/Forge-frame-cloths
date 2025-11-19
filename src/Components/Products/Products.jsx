@@ -1,9 +1,10 @@
 // Products.jsx
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import ProductCard from "./ProductCard";
 import useProducts from "../../Components/Hooks/useProducts";
+
 // Helpers: safely handle Mongo-style numbers
 const getPriceNumber = (price) => {
   if (typeof price === "number") return price;
@@ -30,13 +31,18 @@ const getPrimaryColor = (product) => {
   return null;
 };
 
+// helper to get product name as a string
+const getProductName = (p) => {
+  if (Array.isArray(p?.name)) return p.name.join(" ");
+  return p?.name || "";
+};
+
 const Products = () => {
   const [expandedFilter, setExpandedFilter] = useState(null);
   const [activeFilters, setActiveFilters] = useState({});
   const [sortBy, setSortBy] = useState("recommended");
-  const [products] = useProducts()
-
-
+  const [searchTerm, setSearchTerm] = useState(""); // 🔍 search state
+  const [products] = useProducts();
 
   const colorMap = {
     Brown: "#8B6F47",
@@ -126,6 +132,16 @@ const Products = () => {
   const filteredProducts = useMemo(() => {
     let result = [...products];
 
+    // 🔍 Search by product name OR category
+    if (searchTerm.trim()) {
+      const term = searchTerm.toLowerCase();
+      result = result.filter((p) => {
+        const name = getProductName(p).toLowerCase();
+        const category = (p?.category || "").toLowerCase();
+        return name.includes(term) || category.includes(term);
+      });
+    }
+
     // Color filter
     if (activeFilters.color && activeFilters.color.length > 0) {
       result = result.filter((p) =>
@@ -183,7 +199,7 @@ const Products = () => {
     }
 
     return result;
-  }, [products, activeFilters, sortBy]);
+  }, [products, activeFilters, sortBy, searchTerm]);
 
   const handleFilterChange = (filterKey, itemName) => {
     setActiveFilters((prev) => ({
@@ -197,9 +213,9 @@ const Products = () => {
   const handleReset = () => {
     setActiveFilters({});
     setSortBy("recommended");
+    setSearchTerm(""); // reset search too
   };
 
-  // Small dropdown component for the top bar
   const TopFilterDropdown = ({ filterKey, data }) => {
     const isOpen = expandedFilter === filterKey;
 
@@ -272,19 +288,52 @@ const Products = () => {
     );
   };
 
+  // 👇 smart label for the top-right text
+  const hasFiltersOrSearch =
+    Object.values(activeFilters).flat().length > 0 || searchTerm.trim();
+
+  let countLabel = "";
+  if (products.length === 0) {
+    countLabel = "No products available";
+  } else if (hasFiltersOrSearch && filteredProducts.length === 0) {
+    countLabel = "No products available for this search";
+  } else if (hasFiltersOrSearch) {
+    countLabel = `Showing ${filteredProducts.length} of ${products.length} items`;
+  } else {
+    countLabel = `Showing all ${products.length} items`;
+  }
+
   return (
     <div className="w-full bg-white">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+      {/* Search input */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-8">
+        <div className="w-full md:w-2/3 lg:w-1/2 mx-auto mb-6">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search by product name or category"
+            className="
+              w-full
+              bg-white
+              border border-gray-300
+              px-4 py-2.5
+              text-sm text-gray-900
+              placeholder:text-gray-400
+              focus:outline-none focus:border-black
+              transition-colors duration-150
+            "
+          />
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-10">
         {/* Top title / count */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-4">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
             Shop Our Collection
           </h1>
-          <p className="text-sm text-gray-600">
-            {Object.values(activeFilters).flat().length > 0
-              ? `Showing ${filteredProducts.length} of ${products.length} items`
-              : `Showing all ${products.length} items`}
-          </p>
+          <p className="text-sm text-gray-600">{countLabel}</p>
         </div>
 
         {/* FILTER BAR */}
@@ -309,9 +358,7 @@ const Products = () => {
             >
               <option value="recommended">Recommended</option>
               <option value="price-low">Price: Low to High</option>
-              <option value="price-high">
-                Price: High to Low
-              </option>
+              <option value="price-high">Price: High to Low</option>
               <option value="rating">Highest Rated</option>
             </select>
 
@@ -325,12 +372,12 @@ const Products = () => {
           </div>
         </div>
 
-        {/* Cards grid */}
+        {/* Cards grid / empty state */}
         {filteredProducts.length > 0 ? (
           <div className="grid gap-6 grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
             {filteredProducts.map((product, idx) => (
               <ProductCard
-                key={product.id}
+                key={product.id || product._id || idx}
                 pro={product}
                 index={idx}
               />
@@ -339,7 +386,9 @@ const Products = () => {
         ) : (
           <div className="text-center py-16">
             <p className="text-lg font-semibold text-gray-700">
-              No products found with selected filters.
+              {products.length === 0
+                ? "No products available."
+                : "No products available for this search."}
             </p>
           </div>
         )}

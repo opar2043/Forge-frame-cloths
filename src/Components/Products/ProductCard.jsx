@@ -3,7 +3,6 @@ import React from "react";
 import { motion } from "framer-motion";
 import { FaCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
 import useAuth from "../Hooks/useAuth";
 
 // Helper: safely get numeric price from different shapes
@@ -102,18 +101,10 @@ const ProductCard = ({ pro, index }) => {
 
     handleCart(cartItem);
 
-    // optional visual feedback
-    // Swal.fire({
-    //   icon: "success",
-    //   title: "Added to cart",
-    //   text: `${title} has been added to your cart.`,
-    //   timer: 1200,
-    //   showConfirmButton: false,
-    // });
   };
 
   return (
-    <Link to={`/view/${pro?.id}`} className="block">
+    <Link to={`/view/${pro?._id}`} className="block">
       <motion.article
         variants={cardVariants}
         initial="initial"

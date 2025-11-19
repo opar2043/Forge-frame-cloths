@@ -12,6 +12,12 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const provider = new GoogleAuthProvider();
   const [quantities, setQuantities] = useState({});
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  
+
+
+
+
   // Register new user
   const handleRegister = (email, pass) => {
     setLoading(true);
@@ -89,7 +95,8 @@ const AuthProvider = ({ children }) => {
     setUser,
     quantities, setQuantities
     , opar,
-    handleCart
+    handleCart,
+    isReviewModalOpen, setIsReviewModalOpen
   };
 
   return (

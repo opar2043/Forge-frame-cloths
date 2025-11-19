@@ -2,10 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FaCircle } from "react-icons/fa";
 import Swal from "sweetalert2";
-import useAxios from "../Hooks/useAxios";
+
 import useAuth from "../Hooks/useAuth";
+import Modal from "../Review/Modal";
+import useProducts from "../Hooks/useProducts";
+import useAxios from "../Hooks/useAxios";
 
 const colorMap = {
   Brown: "#8B6F47",
@@ -37,30 +39,23 @@ const getPriceNumber = (price) => {
 
 const ViewProduct = () => {
   const { id } = useParams();
-  const {handleCart} = useAuth()
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+
+  // from your auth hook
+  const { handleCart, isReviewModalOpen, setIsReviewModalOpen } = useAuth();
+
+  // products hook
+  const [products, refetch, isLoading] = useProducts();
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
 
-  useEffect(() => {
-    setLoading(true);
-    fetch("/products.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data || []);
-      })
-      .catch((err) => {
-        console.error("Error loading products.json", err);
-      })
-      .finally(() => setLoading(false));
-  }, []);
+  // local reviews to show under product
+  const [reviews, setReviews] = useState([]);
 
-  const product = products.find(
-    (pr) => String(pr.id) === String(id)
-  );
+  const axiosSecure = useAxios();
+
+  const product = products && products.find((pr) => pr._id == id);
 
   useEffect(() => {
     if (product) {
@@ -82,31 +77,54 @@ const ViewProduct = () => {
     }
   }, [product]);
 
-  // * handle add to cart
-  const axiosSecure = useAxios();
+  // 🔥 POST review to backend + update local state
+  const handleReviewSubmit = async (data) => {
+    try {
+      const payload = {
+        productId: product._id,
+        productName: Array.isArray(product.name)
+          ? product.name[0]
+          : product.name,
+        ...data, // { name, rating, review }
+        createdAt: new Date().toISOString(),
+      };
 
-  // async function handleCart(item) {
-  //   const res = await axiosSecure.post("/cart", item);
-  //   if (res?.data?.insertedId) {
-  //     Swal.fire({
-  //       title: "Added!",
-  //       text: `${item.name} added to your cart.`,
-  //       icon: "success",
-  //       timer: 1200,
-  //       showConfirmButton: false,
-  //     });
-  //   } else {
-  //     Swal.fire({
-  //       title: "Already in Cart",
-  //       text: `${item.name} is already in your cart.`,
-  //       icon: "info",
-  //       timer: 1200,
-  //       showConfirmButton: false,
-  //     });
-  //   }
-  // }
+      const res = await axiosSecure.post("/reviews", payload);
 
-  if (loading) {
+      // you can adjust success condition based on your API
+      if (res.data?.insertedId || res.data?.success) {
+        setReviews((prev) => [
+          ...prev,
+          { id: res.data.insertedId || Date.now(), ...payload },
+        ]);
+
+        Swal.fire({
+          icon: "success",
+          title: "Thank you!",
+          text: "Your review has been submitted.",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+
+        setIsReviewModalOpen(false);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops!",
+          text: "Could not submit your review. Please try again.",
+        });
+      }
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops!",
+        text: "Something went wrong while submitting your review.",
+      });
+    }
+  };
+
+  if (isLoading) {
     return (
       <div className="w-full py-20 flex items-center justify-center">
         <p className="text-sm text-gray-600">Loading product...</p>
@@ -154,12 +172,12 @@ const ViewProduct = () => {
 
   const handleAddToCart = () => {
     const cartItem = {
-      id: product.id,
+      id: product._id,
       name: title,
       price: getPriceNumber(product.price),
       color: selectedColor,
       size: selectedSize,
-      image : images 
+      image: images,
     };
     handleCart(cartItem);
   };
@@ -263,16 +281,13 @@ const ViewProduct = () => {
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
                       className={`w-8 h-8 rounded-full border ${
-                        selectedColor === c
-                          ? "border-black"
-                          : "border-gray-300"
+                        selectedColor === c ? "border-black" : "border-gray-300"
                       } flex items-center justify-center`}
                     >
                       <span
                         className="inline-block w-6 h-6 rounded-full"
                         style={{
-                          backgroundColor:
-                            colorMap[c] || c.toLowerCase(),
+                          backgroundColor: colorMap[c] || c.toLowerCase(),
                         }}
                       />
                     </motion.button>
@@ -285,9 +300,7 @@ const ViewProduct = () => {
             {sizes.length > 0 && (
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-semibold text-gray-800">
-                    Size
-                  </p>
+                  <p className="text-sm font-semibold text-gray-800">Size</p>
                   <button className="text-xs text-gray-600 underline underline-offset-2">
                     Size chart
                   </button>
@@ -339,8 +352,7 @@ const ViewProduct = () => {
               <p className="font-semibold">Product Description</p>
               <p>{product.description}</p>
               <p>
-                Fit:{" "}
-                <span className="font-normal">{product.fit}</span>
+                Fit: <span className="font-normal">{product.fit}</span>
               </p>
               {product.materials && (
                 <p>
@@ -353,19 +365,66 @@ const ViewProduct = () => {
               {product.occasion && (
                 <p>
                   Occasion:{" "}
-                  <span className="font-normal">
-                    {product.occasion}
-                  </span>
+                  <span className="font-normal">{product.occasion}</span>
                 </p>
               )}
               <p className="text-xs text-gray-500 mt-2">
-                Color may vary slightly due to lighting. Please refer
-                to our size chart for the best fit.
+                Color may vary slightly due to lighting. Please refer to our
+                size chart for the best fit.
               </p>
             </div>
           </motion.div>
         </div>
       </div>
+
+      {/* Review section */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="border-t border-gray-200 pt-8 mt-4">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">
+              Customer Reviews
+            </h2>
+            <button
+              type="button"
+              onClick={() => setIsReviewModalOpen(true)}
+              className="inline-flex items-center justify-center rounded border border-gray-900 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-900 hover:text-white transition"
+            >
+              Write a review
+            </button>
+          </div>
+
+          {reviews.length === 0 ? (
+            <p className="text-sm text-gray-500">
+              No reviews yet. Be the first to review this item.
+            </p>
+          ) : (
+            <div className="space-y-4 grid grid-cols-1 md:grid-cols-3">
+              {reviews.map((rev) => (
+                <div
+                  key={rev.id}
+                  className="border border-gray-300 rounded-lg p-4 bg-gray-50"
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <p className="font-semibold text-gray-900">{rev.name}</p>
+                    <div className="flex items-center gap-1 text-yellow-500 text-xs">
+                      {"★".repeat(rev.rating)}
+                      {"☆".repeat(5 - rev.rating)}
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-700">{rev.review}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Review Modal */}
+      <Modal
+        isOpen={isReviewModalOpen}
+        onClose={() => setIsReviewModalOpen(false)}
+        onSubmit={handleReviewSubmit}
+      />
     </div>
   );
 };

@@ -3,6 +3,13 @@ import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { motion } from "framer-motion";
 
+// 🔹 Swiper imports
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
 // ✅ Review data
 const REVIEW_DATA = [
   {
@@ -63,10 +70,11 @@ const Stars = ({ rating }) => {
 const ReviewCard = ({ item, index }) => {
   return (
     <motion.article
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.05, duration: 0.4 }}
-      className="bg-white rounded shadow-md border border-gray-100 overflow-hidden flex flex-col"
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.05, duration: 0.35 }}
+      className="bg-white rounded-md shadow-md border border-gray-100 overflow-hidden flex flex-col h-full"
     >
       {/* top image */}
       <div className="h-52 w-full overflow-hidden">
@@ -111,16 +119,37 @@ const Review = () => {
   const [reviews] = useState(REVIEW_DATA);
 
   return (
-    <section className="py-8 px-3 max-w-6xl mx-auto">
-      <h2 className="text-xl text-slate-950 md:text-2xl font-semibold mb-4">
-        Customer reviews
-      </h2>
-
-      <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {reviews.map((item, index) => (
-          <ReviewCard key={index} item={item} index={index} />
-        ))}
+    <section className="py-10 px-3 max-w-6xl mx-auto">
+      <div className="flex items-center justify-between mb-5">
+        <h2 className="text-xl md:text-2xl font-semibold text-slate-950">
+          Customer reviews
+        </h2>
+        <p className="text-xs md:text-sm text-slate-500">
+          Real women. Real fits. Real feedback.
+        </p>
       </div>
+
+      <Swiper
+        modules={[Navigation, Pagination]}
+        spaceBetween={18}
+        slidesPerView={1.1}
+        centeredSlides={true}
+        loop={true}
+        navigation
+        pagination={{ clickable: true }}
+        breakpoints={{
+          640: { slidesPerView: 1.3, centeredSlides: true },
+          768: { slidesPerView: 2, centeredSlides: false },
+          1024: { slidesPerView: 3, centeredSlides: false },
+        }}
+        className="pb-10"
+      >
+        {reviews.map((item, index) => (
+          <SwiperSlide key={index} className="!h-auto">
+            <ReviewCard item={item} index={index} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </section>
   );
 };

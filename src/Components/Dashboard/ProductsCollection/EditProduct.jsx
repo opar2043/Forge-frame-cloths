@@ -102,7 +102,7 @@ const EditProduct = () => {
       "Accessories",
       "Best sellers",
       "Sale",
-      "Limited edition ❤",
+      "Limited edition ",
       "Trending now",
     ],
   };
@@ -316,7 +316,7 @@ const EditProduct = () => {
         Swal.fire("✅ Product updated successfully!");
         if (refetch) refetch();
       } else {
-        toast.error("❌ No changes were made.");
+        toast.error(" No changes were made.");
       }
     } catch (err) {
       console.error(err);
@@ -424,7 +424,8 @@ const EditProduct = () => {
               <label className="block text-xs font-medium text-slate-600 mb-1.5">
                 Category *
               </label>
-              <select
+{
+     formData.category &&           <select
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
@@ -433,11 +434,12 @@ const EditProduct = () => {
               >
                 <option value="">Select category</option>
                 {options.categories.map((cat) => (
-                  <option key={cat} value={cat}>
+                                  <option key={cat} value={cat}>
                     {cat}
                   </option>
                 ))}
               </select>
+}
             </div>
 
             {/* Sizes */}

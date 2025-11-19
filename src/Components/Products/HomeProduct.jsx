@@ -5,18 +5,6 @@ import ProductCard from "./ProductCard";
 import useProducts from "../Hooks/useProducts";
 
 const HomeProducts = () => {
-  // const [products, setProducts] = useState([]);
-
-  // useEffect(() => {
-  //   fetch("./products.json")
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setProducts(data);
-  //     })
-  //     .catch((err) => {
-  //       console.error("Error loading products.json", err);
-  //     });
-  // }, []);
 
   const [products] = useProducts();
 

@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
 const CartSidebar = ({ isOpen = false, onClose = () => {} }) => {
-  const [cart, refetch] = useCart();
+  const [cart=[], refetch] = useCart();
   const [quantities, setQuantities] = useState({});
   const axiosSecure = useAxios();
 
@@ -171,7 +171,7 @@ const CartSidebar = ({ isOpen = false, onClose = () => {} }) => {
             </div>
 
             <Link to={'/payment'}>
-              <button className="w-full bg-[#fcd0c3] shadow  py-3 rounded text-sm font-semibold tracking-wide hover:bg-slate-800 transition">
+              <button className="w-full bg-[#fcd0c3] shadow  py-3 rounded text-sm font-semibold tracking-wide hover:bg-slate-800 hover:text-white transition">
                 Go to Checkout
               </button>
             </Link>

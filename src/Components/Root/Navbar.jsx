@@ -5,11 +5,9 @@ import {
   FiMenu,
   FiX,
   FiSearch,
-  FiHeart,
   FiUser,
   FiShoppingBag,
   FiChevronDown,
-  FiHome,
   FiDatabase,
   FiLogOut,
 } from "react-icons/fi";
@@ -43,11 +41,7 @@ const DRESSES_MEGA = {
       items: ["View All", "New Arrivals", "Best Rated"],
     },
   ],
-  media: {
-    title: "Editor’s Pick",
-    text: "Save 15% with code BLACK15 — Limited time only.",
-    img: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1200&auto=format&fit=crop",
-  },
+
 };
 
 const slugify = (s) =>
@@ -58,6 +52,14 @@ const slugify = (s) =>
     .replace(/[^\w\s-]/g, "")
     .trim()
     .replace(/\s+/g, "-");
+
+// helper: build route for category items
+// Special case: "Dresses" => "/dresses" ONLY
+const categoryPath = (name) => {
+  if (name === "Dresses") return "/dresses";
+  // everything else goes under /dresses/:category
+  return `/dresses${slugify(name)}`;
+};
 
 // Small link component
 const NavLink = ({ label, active, to }) => (
@@ -90,20 +92,23 @@ const Navbar = () => {
   );
 
   // Final CATEGORIES array (static + dynamic)
+  // Each has an explicit `path`, and we add a Contact link too.
   const CATEGORIES = [
-    { name: "Best Sellers" },
-    { name: "NEW IN" },
+    { name: "Best Sellers", path: categoryPath("Best Sellers") },
+    { name: "NEW IN", path: categoryPath("NEW IN") },
     // dynamic categories from product data
     ...uniqueCategoryNames.map((name) => ({
       name,
+      path: categoryPath(name),
       mega: name === "Dresses" ? DRESSES_MEGA : undefined,
     })),
-    { name: "Black Friday", highlight: true },
-    { name: "By Trend" },
-    { name: "Lookbook" },
-    { name: "Accessories" },
-    { name: "SALE" },
-    { name: "Shop Instagram" },
+    // 👇 Non-product page: Contact
+    { name: "Contact", path: "/contact" },
+    { name: "By Trend", path: categoryPath("By Trend") },
+    { name: "Lookbook", path: categoryPath("Lookbook") },
+    { name: "SALE", path: categoryPath("SALE") },
+
+
   ];
 
   function logOut() {
@@ -119,7 +124,6 @@ const Navbar = () => {
     <header className="w-full bg-[#F9F6F2]">
       <div className="h-[1px] w-full bg-black/60" />
       <div className="text-center px-3 md:px-10 font-extrabold text-sm tracking-wide py-1 text-slate-900">
-
         FREE SHIPPING OVER $89
       </div>
 
@@ -158,7 +162,7 @@ const Navbar = () => {
           </div>
 
           {/* Right (desktop) */}
-          <div className="hidden md:flex items-center gap-5">
+          <div className="hidden md:flex items-center gap-2">
             {/* Language */}
             <div className="relative">
               <button
@@ -256,7 +260,7 @@ const Navbar = () => {
                   <span
                     className="
                       absolute top-1 right-1
-                      min-w-[16px] h-[16px]
+                      min-w-[14px] h-[14px]
                       rounded-full
                       bg-rose-500
                       text-[10px] leading-[18px]
@@ -307,7 +311,7 @@ const Navbar = () => {
               className="
                 relative inline-flex items-center justify-center
                 h-9 w-9 rounded-full
-                bg-white shadow-sm
+                shadow-sm
                 hover:bg-slate-50
                 transition-all duration-200
               "
@@ -316,8 +320,8 @@ const Navbar = () => {
               {cart?.length > 0 && (
                 <span
                   className="
-                    absolute -top-1 -right-1
-                    min-w-[16px] h-[16px]
+                    absolute top-0 right-0
+                    min-w-[14px] h-[14px]
                     rounded-full
                     bg-rose-500
                     text-[10px] leading-[16px]
@@ -334,9 +338,10 @@ const Navbar = () => {
         </div>
 
         {/* Category row (desktop) */}
-        <div className="hidden md:flex justify-center gap-4 text-sm font-semibold py-6 text-[#1E293B] relative">
+        <div className="hidden md:flex justify-center gap-3 text-sm font-semibold py-3.5 text-[#1E293B] relative">
           {CATEGORIES.map((cat) => {
-            const to = slugify(cat.name); // e.g. "Dresses" -> "/dresses"
+            const path = cat.path || categoryPath(cat.name);
+            const topSlug = slugify(cat.name); // used only for Dresses mega sub-links
             return (
               <div
                 key={cat.name}
@@ -346,11 +351,10 @@ const Navbar = () => {
                   setOpenMega((n) => (n === cat.name ? null : n))
                 }
               >
-                {/* keep your routing logic */}
                 <NavLink
                   label={cat.name}
                   active={cat.highlight}
-                  to={`dresses${to}`}
+                  to={path}
                 />
 
                 {/* Mega dropdown (only for Dresses) */}
@@ -358,7 +362,7 @@ const Navbar = () => {
                   <div className="absolute left-1/2 -translate-x-1/2 top-[28px] z-30 w-screen max-w-7xl px-4 trasnslate-y-2 opacity-100 visible transition-all duration-300">
                     <div className="mx-auto rounded-b-2xl border border-slate-200 bg-white shadow-sm">
                       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 p-6">
-                        <div className="lg:col-span-3 grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        <div className="lg:col-span-3 grid grid-cols-2 sm:grid-cols-3 gap-3">
                           {cat.mega.columns.map((col) => (
                             <div key={col.title}>
                               <div className="text-[13px] font-bold uppercase text-[#131a25] tracking-wide mb-2">
@@ -368,7 +372,7 @@ const Navbar = () => {
                                 {col.items.map((it) => (
                                   <li key={it}>
                                     <Link
-                                      to={`${to}${slugify(
+                                      to={`${topSlug}${slugify(
                                         "/" + col.title
                                       )}/${slugify(it)}`}
                                       className="text-[#7C7A79] hover:underline font-normal text-sm"
@@ -382,24 +386,6 @@ const Navbar = () => {
                           ))}
                         </div>
 
-                        <div className="lg:col-span-2">
-                          <div className="overflow-hidden rounded-xl border border-slate-200">
-                            <div className="p-4">
-                              <div className="font-semibold">
-                                {cat.mega.media.title}
-                              </div>
-                              <p className="text-sm text-slate-600 mt-1">
-                                {cat.mega.media.text}
-                              </p>
-                              <Link
-                                to={to}
-                                className="mt-3 inline-block text-sm font-semibold underline"
-                              >
-                                Shop now
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -427,7 +413,8 @@ const Navbar = () => {
 
             <div className="mt-4">
               {CATEGORIES.map((cat) => {
-                const to = slugify(cat.name);
+                const path = cat.path || categoryPath(cat.name);
+                const topSlug = slugify(cat.name); // for Dresses sub-links
                 return (
                   <details
                     key={cat.name}
@@ -435,7 +422,7 @@ const Navbar = () => {
                   >
                     <summary className="flex list-none items-center justify-between py-3 font-semibold text-slate-900">
                       <Link
-                        to={`/dresses${to}`}
+                        to={path}
                         className={cat.highlight ? "text-rose-400" : ""}
                         onClick={() => setMobileOpen(false)}
                       >
@@ -459,7 +446,7 @@ const Navbar = () => {
                               {col.items.map((it) => (
                                 <li key={it}>
                                   <Link
-                                    to={`${to}${slugify(
+                                    to={`${topSlug}${slugify(
                                       "/" + col.title
                                     )}/${slugify(it)}`}
                                     className="text-[15px] text-slate-800"
