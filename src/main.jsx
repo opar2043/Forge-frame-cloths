@@ -30,6 +30,7 @@ import Contact from './Components/About/Contact.jsx';
 import LookBook from './Components/About/LookBook.jsx';
 import Confirm from './Components/Dashboard/Order/Confirm.jsx';
 import Overview from './Components/Dashboard/Admin/Overview.jsx';
+import CategoryInner from './Components/Products/CategoryInner/CategoryInner.jsx';
 
 const queryClient = new QueryClient()
 
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
       {
         path: '/dresses/:category',
         element: <CategoryProduct></CategoryProduct>
+      },
+      {
+        path: '/dresses/:cat1/:cat2',
+        element: <CategoryInner></CategoryInner>
       },
     ]
   },

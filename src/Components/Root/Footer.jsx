@@ -1,7 +1,7 @@
 // src/Components/Root/Footer.jsx
-import { FaFacebookF, FaPinterestP, FaInstagram } from "react-icons/fa";
+import { FaFacebookF, FaPinterestP, FaInstagram, FaVoicemail } from "react-icons/fa";
 import { FaTiktok } from "react-icons/fa6";
-import { FaXTwitter } from "react-icons/fa6";
+import { SiGmail } from "react-icons/si";
 
 const Footer = () => {
   return (
@@ -19,28 +19,21 @@ const Footer = () => {
 
             <div className="flex items-center gap-3">
 
-              {/* Facebook */}
-              <a
-                href="#"
-                className="h-8 w-8 flex items-center justify-center rounded-full border-2 border-[#303030]"
-              >
-                <FaFacebookF size={13} color="#303030" />
-              </a>
 
               {/* X / Twitter */}
-              <a
+              {/* <a
                 href="#"
                 className="h-8 w-8 flex items-center justify-center rounded-full border-2 border-[#303030]"
               >
                 <FaXTwitter size={13} color="#303030" />
-              </a>
+              </a> */}
 
-              {/* Pinterest */}
+
               <a
-                href="#"
+                href="mailto:Forge-frame@outlook.com"
                 className="h-8 w-8 flex items-center justify-center rounded-full border-2 border-[#303030]"
               >
-                <FaPinterestP size={13} color="#303030" />
+                <SiGmail size={13} color="#303030" />
               </a>
 
               {/* Instagram (real link) */}
@@ -68,7 +61,7 @@ const Footer = () => {
 
             {/* Strong business tagline */}
             <p className="font-semibold text-[#1D1E20]">
-              Today’s trusted UK clothing & framing store.
+              Today’s trusted UK clothing Quality brand 
             </p>
 
             <p className="mt-2">
@@ -77,9 +70,14 @@ const Footer = () => {
 
             {/* Company Registration Info (placeholder) */}
             <p className="mt-4 text-xs text-gray-500">
-              Company Registration No: <span className="font-medium">12345678</span>
+              Company Registration No: <span className="font-medium">16811123</span>
             </p>
             <p className="text-xs text-gray-500">
+              Company Email: <span className="font-medium">
+                Forge-frame@outlook.com
+              </span>
+            </p>
+            <p className="text-xs mt-2 text-gray-500">
               Registered in England & Wales.
             </p>
 

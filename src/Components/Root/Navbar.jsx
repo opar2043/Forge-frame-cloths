@@ -10,6 +10,7 @@ import {
   FiChevronDown,
   FiDatabase,
   FiLogOut,
+  FiHeart,
 } from "react-icons/fi";
 import useAuth from "../Hooks/useAuth";
 import { toast } from "react-toastify";
@@ -17,31 +18,26 @@ import CartSidebar from "./CartSidebar";
 import useCart from "../Hooks/useCart";
 import useProducts from "../Hooks/useProducts";
 import Marquee from "react-fast-marquee";
+import img from "../../assets/logo2.svg";
 const ICON_COLOR = "#303030";
 
 // Mega-menu config for Dresses (kept same as before)
+
 const DRESSES_MEGA = {
   columns: [
     {
       title: "Occasion",
-      items: ["Party", "Work", "Casual", "Wedding Guest", "Holiday"],
+      items: ["New In", "Abayas", "Co Ords", "Best Sellers", "Limited Edition"],
     },
-    { title: "Length", items: ["Mini", "Midi", "Maxi"] },
-    { title: "Season", items: ["Spring", "Summer", "Autumn", "Winter"] },
     {
       title: "Color",
-      items: ["Black", "White", "Neutrals", "Brights", "Pastels"],
-    },
-    {
-      title: "Fabric",
-      items: ["Silk", "Satin", "Linen", "Cotton", "Knit"],
+      items: ["Tops-Shirts", "Trousers", "Outerwear", "Brights", "Pastels"],
     },
     {
       title: "All Dresses",
-      items: ["View All", "New Arrivals", "Best Rated"],
+      items: ["Accessories", "Lookbook", "Sale", "Lounge wear", "Outerwear"],
     },
   ],
-
 };
 
 const slugify = (s) =>
@@ -94,8 +90,10 @@ const Navbar = () => {
   // Final CATEGORIES array (static + dynamic)
   // Each has an explicit `path`, and we add a Contact link too.
   const CATEGORIES = [
-    { name: "Best Sellers", path: categoryPath("Best Sellers") },
     { name: "NEW IN", path: categoryPath("NEW IN") },
+
+    { name: "Abayas", path: categoryPath("Abayas") },
+    // { name: "Tops-Shirts", path: categoryPath("Tops-Shirts") },
     // dynamic categories from product data
     ...uniqueCategoryNames.map((name) => ({
       name,
@@ -103,12 +101,16 @@ const Navbar = () => {
       mega: name === "Dresses" ? DRESSES_MEGA : undefined,
     })),
     // 👇 Non-product page: Contact
+    // { name: "Co Ords", path: categoryPath("Co Ords") },
+    // { name: "Lounge wear", path: categoryPath("Lounge wear") },
+    // { name: "Trousers", path: categoryPath("Trousers") },
     { name: "Contact", path: "/contact" },
-    { name: "By Trend", path: categoryPath("By Trend") },
-    { name: "Lookbook", path: categoryPath("Lookbook") },
+    // { name: "Outerwear", path: categoryPath("Outerwear") },
+    // { name: "Accessories", path: categoryPath("Accessories") },
+    { name: "Best sellers", path: categoryPath("Best sellers") },
     { name: "SALE", path: categoryPath("SALE") },
-
-
+    { name: "Limited edition", path: categoryPath("Limited edition") },
+    { name: "Trending now", path: categoryPath("Trending now") },
   ];
 
   function logOut() {
@@ -123,28 +125,24 @@ const Navbar = () => {
   return (
     <header className="w-full bg-[#F9F6F2]">
       <div className="h-[1px] w-full bg-black/60" />
-    <Marquee
-      speed={50}
-      gradient={false}
-      pauseOnHover={true}
-      className="py-1"
-    >
-      <span className="text-slate-900 font-extrabold text-sm tracking-wide">
-        FREE SHIPPING OVER £89
-      </span>
+      <Marquee speed={50} gradient={false} pauseOnHover={true} className="py-1">
+        <span className="text-slate-900 font-extrabold text-sm tracking-wide">
+          FREE SHIPPING OVER £89
+        </span>
 
-      <span className="mx-6 text-slate-800">•</span>
+        <span className="mx-6 text-slate-800">•</span>
 
-      <span className="text-slate-900 font-extrabold text-sm tracking-wide">
-        HANDMADE IN THE UK
-      </span>
+        <span className="text-slate-900 font-extrabold text-sm tracking-wide">
+          HANDMADE IN THE UK
+        </span>
 
-      <span className="mx-6 text-slate-800">•</span>
+        <span className="mx-6 text-slate-800">•</span>
 
-      <span className="text-slate-800 font-extrabold text-sm tracking-wide">
-        PREMIUM QUALITY GUARANTEED
-      </span>
-    </Marquee>
+        <span className=" text-slate-800 font-extrabold text-sm tracking-wide">
+          PREMIUM QUALITY GUARANTEED
+        </span>
+        <span className="mx-6 text-slate-800">•</span>
+      </Marquee>
 
       {/* Cart Sidebar */}
       <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
@@ -170,7 +168,7 @@ const Navbar = () => {
               className="flex items-center gap-2 md:gap-3 text-xl md:text-4xl font-extrabold tracking-tight text-[#000000] italic"
             >
               <img
-                src="/logo2.svg"
+                src={img}
                 alt="logo"
                 className="rounded-full w-9 h-9 md:w-12 md:h-12"
               />
@@ -182,62 +180,6 @@ const Navbar = () => {
 
           {/* Right (desktop) */}
           <div className="hidden md:flex items-center gap-2">
-            {/* Language */}
-            {/* <div className="relative">
-              <button
-                onClick={() => {
-                  setLangOpen((v) => !v);
-                  setRegOpen(false);
-                }}
-                className="flex items-center gap-1 text-sm text-slate-800"
-              >
-                English <FiChevronDown size={16} color={ICON_COLOR} />
-              </button>
-              {langOpen && (
-                <div
-                  className="absolute right-0 mt-2 w-40 rounded-md border border-gray-200 bg-white shadow-sm z-20"
-                  onMouseLeave={() => setLangOpen(false)}
-                >
-                  <button className="w-full px-3 py-2 text-left hover:bg-gray-50">
-                    English
-                  </button>
-                  <button className="w-full px-3 py-2 text-left hover:bg-gray-50">
-                    Nederlands
-                  </button>
-                </div>
-              )}
-            </div> */}
-
-            {/* Region / Currency */}
-            {/* <div className="relative">
-              <button
-                onClick={() => {
-                  setRegOpen((v) => !v);
-                  setLangOpen(false);
-                }}
-                className="flex items-center gap-1 text-sm text-slate-800"
-              >
-                United States (USD $){" "}
-                <FiChevronDown size={16} color={ICON_COLOR} />
-              </button>
-              {regOpen && (
-                <div
-                  className="absolute right-0 mt-2 w-60 rounded-md border border-gray-200 bg-white shadow-sm z-20"
-                  onMouseLeave={() => setRegOpen(false)}
-                >
-                  <button className="w-full px-3 py-2 text-left hover:bg-gray-50">
-                    United States (USD $)
-                  </button>
-                  <button className="w-full px-3 py-2 text-left hover:bg-gray-50">
-                    Europe (EUR €)
-                  </button>
-                  <button className="w-full px-3 py-2 text-left hover:bg-gray-50">
-                    United Kingdom (GBP £)
-                  </button>
-                </div>
-              )}
-            </div> */}
-
             {/* Icons (desktop) */}
             <div className="flex items-center gap-3">
               <Link to="/dresses" aria-label="Search" className="p-2">
@@ -246,19 +188,12 @@ const Navbar = () => {
 
               {/* dashboard */}
               <Link to="/dashboard" aria-label="Dashboard" className="p-2">
-                <FiDatabase size={22} color={ICON_COLOR} />
+                <FiUser size={22} color={ICON_COLOR} />
               </Link>
-
-              {/* login / logout */}
-              {user ? (
-                <button onClick={logOut} className="p-2" aria-label="Logout">
-                  <FiLogOut size={22} color={ICON_COLOR} />
-                </button>
-              ) : (
-                <Link to="/login" aria-label="Account" className="p-2">
-                  <FiUser size={22} color={ICON_COLOR} />
-                </Link>
-              )}
+              {/* dashboard */}
+              {/* <Link to="/wishlist"  className="p-2">
+                <FiHeart size={22} color={ICON_COLOR} />
+              </Link> */}
 
               {/* Cart button (opens sidebar) */}
               <button
@@ -275,9 +210,8 @@ const Navbar = () => {
               >
                 <FiShoppingBag size={20} color={ICON_COLOR} />
 
-                {cart?.length > 0 && (
-                  <span
-                    className="
+                <span
+                  className="
                       absolute top-1 right-1
                       min-w-[14px] h-[14px]
                       rounded-full
@@ -287,11 +221,36 @@ const Navbar = () => {
                       flex items-center justify-center
                       shadow-sm
                     "
-                  >
-                    {cart.length > 9 ? "9+" : cart.length}
-                  </span>
-                )}
+                >
+                  {cart.length > 9 ? "9+" : cart.length}
+                </span>
               </button>
+              {/* login / logout */}
+              {user ? (
+                <button
+                  onClick={logOut}
+                  className="    w-full px-4 py-2 rounded-lg
+    bg-[#1E1E1E] text-white font-semibold text-xs
+    hover:bg-[#333] shadow-md hover:shadow-lg
+    transition-all duration-300"
+                  aria-label="Logout"
+                >
+                  Log Out
+                </button>
+              ) : (
+                <Link to="/login" aria-label="Account" className="">
+                  <button
+                    type="submit"
+                    className="  w-full px-4 py-2 rounded-lg
+    bg-[#F6E0D9] text-slate-900 font-semibold text-xs
+    hover:bg-[#e7c9c0] shadow hover:shadow-md
+    transition-all duration-300"
+                    style={{ backgroundColor: "#F6E0D9" }}
+                  >
+                    Sign In
+                  </button>
+                </Link>
+              )}
             </div>
           </div>
 
@@ -311,7 +270,7 @@ const Navbar = () => {
                 aria-label="Dashboard"
                 className="p-2 rounded-full hover:bg-black/5"
               >
-                <FiDatabase size={20} color={ICON_COLOR} />
+                <FiUser size={20} color={ICON_COLOR} />
               </Link>
             ) : (
               <Link
@@ -336,10 +295,10 @@ const Navbar = () => {
               "
             >
               <FiShoppingBag size={18} color={ICON_COLOR} />
-              {cart?.length > 0 && (
-                <span
-                  className="
-                    absolute top-0 right-0
+
+              <span
+                className="
+                    absolute top-1 right-0
                     min-w-[14px] h-[14px]
                     rounded-full
                     bg-rose-500
@@ -348,10 +307,9 @@ const Navbar = () => {
                     flex items-center justify-center
                     shadow-sm
                   "
-                >
-                  {cart.length > 9 ? "9+" : cart.length}
-                </span>
-              )}
+              >
+                {cart.length > 9 ? "9+" : cart.length}
+              </span>
             </button>
           </div>
         </div>
@@ -370,15 +328,11 @@ const Navbar = () => {
                   setOpenMega((n) => (n === cat.name ? null : n))
                 }
               >
-                <NavLink
-                  label={cat.name}
-                  active={cat.highlight}
-                  to={path}
-                />
+                <NavLink label={cat.name} active={cat.highlight} to={path} />
 
                 {/* Mega dropdown (only for Dresses) */}
                 {cat.mega && openMega === cat.name && (
-                  <div className="absolute left-1/2 -translate-x-1/2 top-[28px] z-30 w-screen max-w-7xl px-4 trasnslate-y-2 opacity-100 visible transition-all duration-300">
+                  <div className="absolute left-1/2 -translate-x-1/4 top-[28px] z-30 w-screen max-w-6xl px-4 trasnslate-y-2 opacity-100 visible transition-all duration-300">
                     <div className="mx-auto rounded-b-2xl border border-slate-200 bg-white shadow-sm">
                       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 p-6">
                         <div className="lg:col-span-3 grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -393,7 +347,7 @@ const Navbar = () => {
                                     <Link
                                       to={`${topSlug}${slugify(
                                         "/" + col.title
-                                      )}/${slugify(it)}`}
+                                      )}${slugify(it)}`}
                                       className="text-[#7C7A79] hover:underline font-normal text-sm"
                                     >
                                       {it}
@@ -404,7 +358,6 @@ const Navbar = () => {
                             </div>
                           ))}
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -467,7 +420,7 @@ const Navbar = () => {
                                   <Link
                                     to={`${topSlug}${slugify(
                                       "/" + col.title
-                                    )}/${slugify(it)}`}
+                                    )}${slugify(it)}`}
                                     className="text-[15px] text-slate-800"
                                     onClick={() => setMobileOpen(false)}
                                   >
@@ -502,54 +455,32 @@ const Navbar = () => {
                     setMobileOpen(false);
                     logOut();
                   }}
-                  className="flex items-center gap-2 font-semibold text-sm text-slate-800"
+                  className="
+    flex items-center gap-2 font-semibold text-sm 
+    text-white bg-[#1E1E1E] px-4 py-2 rounded-lg
+    hover:bg-[#333] shadow hover:shadow-lg
+    transition-all duration-300
+  "
                 >
-                  <FiLogOut size={18} color={ICON_COLOR} />
+                  <FiLogOut size={18} />
                   Logout
                 </button>
               ) : (
                 <Link
                   to="/login"
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-2 font-semibold text-sm text-slate-800"
+                  className="
+    flex items-center gap-2 font-semibold text-sm
+    text-slate-900 bg-[#F6E0D9] px-4 py-2 rounded-lg
+    hover:bg-[#e7c9c0] shadow hover:shadow-md
+    transition-all duration-300
+  "
                 >
-                  <FiUser size={18} color={ICON_COLOR} />
+                  <FiUser size={18} />
                   Login / Register
                 </Link>
               )}
             </div>
-
-            {/* Language & region in drawer */}
-            {/* <div className="py-2 border-t border-slate-200 text-sm">
-              <details className="group">
-                <summary className="flex list-none items-center justify-between py-2">
-                  English{" "}
-                  <FiChevronDown className="transition group-open:rotate-180" />
-                </summary>
-                <div className="pl-3 pb-2 space-y-2">
-                  <button className="block text-left w-full">English</button>
-                  <button className="block text-left w-full">Nederlands</button>
-                </div>
-              </details>
-
-              <details className="group">
-                <summary className="flex list-none items-center justify-between py-2">
-                  United States (USD $){" "}
-                  <FiChevronDown className="transition group-open:rotate-180" />
-                </summary>
-                <div className="pl-3 pb-2 space-y-2">
-                  <button className="block text-left w-full">
-                    United States (USD $)
-                  </button>
-                  <button className="block text-left w-full">
-                    Europe (EUR €)
-                  </button>
-                  <button className="block text-left w-full">
-                    United Kingdom (GBP £)
-                  </button>
-                </div>
-              </details>
-            </div> */}
           </div>
         </div>
       )}

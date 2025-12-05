@@ -44,7 +44,7 @@ const Contact = () => {
             Contact
           </p>
           <h1 className="mt-4 text-3xl md:text-4xl font-semibold tracking-[0.12em] uppercase text-slate-900">
-            Forge &amp; Frame Studio
+            Forge &amp; Frame 
           </h1>
           <p className="mt-4 text-sm md:text-base text-slate-600 leading-relaxed">
             Forge &amp; Frame is built on the power of contrast: the quiet
@@ -215,7 +215,7 @@ const Contact = () => {
                 <FiPhone className="mt-0.5 text-slate-500" />
                 <div>
                   <p className="font-semibold text-slate-900">Phone / WhatsApp</p>
-                  <p className="select-all">+44 7849 009982</p>
+                  <p className="select-all">+44 07502 036676</p>
                   <p className="text-xs text-slate-500 mt-1">
                     Mon–Fri, 09:00–17:00 (UK time)
                   </p>
@@ -226,7 +226,7 @@ const Contact = () => {
                 <FiMail className="mt-0.5 text-slate-500" />
                 <div>
                   <p className="font-semibold text-slate-900">Email</p>
-                  <p className="select-all">support@forgeandframe.com</p>
+                  <p className="select-all">Forge-frame@outlook.com</p>
                   <p className="text-xs text-slate-500 mt-1">
                     We typically respond within one business day.
                   </p>

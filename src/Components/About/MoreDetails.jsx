@@ -189,7 +189,7 @@ const MoreDetails = () => {
         <p className="text-gray-700 leading-6">
           Ready to elevate your style? Follow us on{" "}
           <a
-            href="#"
+            href="https://www.instagram.com/forgeandframe_uk?igsh=MTBwbXU0aGNueTN5Zg%3D%3D&utm_source=qr"
             className="underline decoration-gray-400 underline-offset-2 hover:decoration-gray-800 transition"
           >
             Instagram

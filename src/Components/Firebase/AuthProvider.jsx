@@ -3,6 +3,7 @@ import { createContext, useEffect, useState } from "react";
 import auth from "./firebase.config";
 import useAxios from "../Hooks/useAxios";
 import Swal from "sweetalert2";
+import useProducts from "../Hooks/useProducts";
 
 
 export const AuthContext = createContext();
@@ -13,7 +14,7 @@ const AuthProvider = ({ children }) => {
   const provider = new GoogleAuthProvider();
   const [quantities, setQuantities] = useState({});
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
-  
+  const [products, refetch] = useProducts()
 
 
 
@@ -38,7 +39,7 @@ const AuthProvider = ({ children }) => {
           timer: 1200,
           showConfirmButton: false,
         });
-        
+        refetch();
       } else {
         Swal.fire({
           title: "Already in Cart",

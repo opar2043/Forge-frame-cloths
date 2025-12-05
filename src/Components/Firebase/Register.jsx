@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import {
-  FiMail,
-  FiEye,
-  FiCalendar,
-  FiChevronDown,
-} from "react-icons/fi";
+import { FiMail, FiEye, FiCalendar, FiChevronDown } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../Hooks/useAuth";
 import useAxios from "../Hooks/useAxios";
@@ -30,11 +25,13 @@ const Register = () => {
     const name = `${firstName} ${lastName}`.trim();
     const email = form.email.value;
     const password = form.password.value;
+    const mobile = form.mobile.value;
 
     const userObj = {
       name,
       email,
       role: "customer",
+      mobile,
     };
 
     handleRegister(email, password)
@@ -69,12 +66,39 @@ const Register = () => {
         </h1>
 
         <form className="space-y-5" onSubmit={handleSignUp}>
+          {/* First / Last */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input
+              name="firstName"
+              type="text"
+              placeholder="First Name"
+              className="w-full border border-slate-300 px-4 py-3 outline-none bg-white text-slate-900 placeholder:text-slate-500"
+            />
+            <input
+              name="lastName"
+              type="text"
+              placeholder="Last Name"
+              className="w-full border border-slate-300 px-4 py-3 outline-none bg-white text-slate-900 placeholder:text-slate-500"
+            />
+          </div>
+
           {/* Email */}
           <div className="relative">
             <input
               name="email"
               type="email"
               placeholder="Email address"
+              className="w-full border border-slate-300 px-4 py-3 pr-12 outline-none bg-white text-slate-900 placeholder:text-slate-500"
+              required
+            />
+            <FiMail className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500" />
+          </div>
+          {/* Email */}
+          <div className="relative">
+            <input
+              name="mobile"
+              type="text"
+              placeholder="Mobile number"
               className="w-full border border-slate-300 px-4 py-3 pr-12 outline-none bg-white text-slate-900 placeholder:text-slate-500"
               required
             />
@@ -100,24 +124,8 @@ const Register = () => {
             </button>
           </div>
 
-          {/* First / Last */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input
-              name="firstName"
-              type="text"
-              placeholder="First Name"
-              className="w-full border border-slate-300 px-4 py-3 outline-none bg-white text-slate-900 placeholder:text-slate-500"
-            />
-            <input
-              name="lastName"
-              type="text"
-              placeholder="Last Name"
-              className="w-full border border-slate-300 px-4 py-3 outline-none bg-white text-slate-900 placeholder:text-slate-500"
-            />
-          </div>
-
           {/* Birthday */}
-          <div className="relative">
+          {/* <div className="relative">
             <input
               name="birthday"
               type="date"
@@ -125,7 +133,7 @@ const Register = () => {
               className="w-full border border-slate-300 px-4 py-3 pr-12 outline-none bg-white text-slate-900 placeholder:text-slate-500"
             />
             <FiCalendar className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600" />
-          </div>
+          </div> */}
 
           {/* Gender */}
           <div className="relative">
