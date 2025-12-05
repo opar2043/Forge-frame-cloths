@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 import CartSidebar from "./CartSidebar";
 import useCart from "../Hooks/useCart";
 import useProducts from "../Hooks/useProducts";
-
+import Marquee from "react-fast-marquee";
 const ICON_COLOR = "#303030";
 
 // Mega-menu config for Dresses (kept same as before)
@@ -80,7 +80,7 @@ const Navbar = () => {
   const [openMega, setOpenMega] = useState(null);
   const [langOpen, setLangOpen] = useState(false);
   const [regOpen, setRegOpen] = useState(false);
-  const [cart] = useCart();
+  const [cart, refetch] = useCart();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [products] = useProducts(); // 🔥 build categories from this
   const { handleLogout, user } = useAuth();
@@ -123,9 +123,28 @@ const Navbar = () => {
   return (
     <header className="w-full bg-[#F9F6F2]">
       <div className="h-[1px] w-full bg-black/60" />
-      <div className="text-center px-3 md:px-10 font-extrabold text-sm tracking-wide py-1 text-slate-900">
-        FREE SHIPPING OVER $89
-      </div>
+    <Marquee
+      speed={50}
+      gradient={false}
+      pauseOnHover={true}
+      className="py-1"
+    >
+      <span className="text-slate-900 font-extrabold text-sm tracking-wide">
+        FREE SHIPPING OVER £89
+      </span>
+
+      <span className="mx-6 text-slate-800">•</span>
+
+      <span className="text-slate-900 font-extrabold text-sm tracking-wide">
+        HANDMADE IN THE UK
+      </span>
+
+      <span className="mx-6 text-slate-800">•</span>
+
+      <span className="text-slate-800 font-extrabold text-sm tracking-wide">
+        PREMIUM QUALITY GUARANTEED
+      </span>
+    </Marquee>
 
       {/* Cart Sidebar */}
       <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
@@ -164,7 +183,7 @@ const Navbar = () => {
           {/* Right (desktop) */}
           <div className="hidden md:flex items-center gap-2">
             {/* Language */}
-            <div className="relative">
+            {/* <div className="relative">
               <button
                 onClick={() => {
                   setLangOpen((v) => !v);
@@ -187,10 +206,10 @@ const Navbar = () => {
                   </button>
                 </div>
               )}
-            </div>
+            </div> */}
 
             {/* Region / Currency */}
-            <div className="relative">
+            {/* <div className="relative">
               <button
                 onClick={() => {
                   setRegOpen((v) => !v);
@@ -217,7 +236,7 @@ const Navbar = () => {
                   </button>
                 </div>
               )}
-            </div>
+            </div> */}
 
             {/* Icons (desktop) */}
             <div className="flex items-center gap-3">
@@ -279,7 +298,7 @@ const Navbar = () => {
           {/* Right (mobile) – simplified like reference UI */}
           <div className="md:hidden flex items-center gap-1">
             <Link
-              to="/search"
+              to="/dresses"
               aria-label="Search"
               className="p-2 rounded-full hover:bg-black/5"
             >
@@ -501,7 +520,7 @@ const Navbar = () => {
             </div>
 
             {/* Language & region in drawer */}
-            <div className="py-2 border-t border-slate-200 text-sm">
+            {/* <div className="py-2 border-t border-slate-200 text-sm">
               <details className="group">
                 <summary className="flex list-none items-center justify-between py-2">
                   English{" "}
@@ -530,7 +549,7 @@ const Navbar = () => {
                   </button>
                 </div>
               </details>
-            </div>
+            </div> */}
           </div>
         </div>
       )}

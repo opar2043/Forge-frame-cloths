@@ -31,10 +31,10 @@ const Dashboard = () => {
         <div className="flex items-center justify-center py-6 border-b">
           <div className="flex items-center gap-2">
             <div className="w-9 h-9 rounded bg-slate-900 flex items-center justify-center text-white text-sm font-semibold">
-              CS
+              FF
             </div>
             <h1 className="text-xl font-semibold text-slate-800">
-              Couture Studio
+              Forge N Frame
             </h1>
           </div>
         </div>

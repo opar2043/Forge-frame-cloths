@@ -60,12 +60,12 @@ Status: ${order.status || "pending"}
 // returns a Web3Forms request payload
 function buildWeb3FormsBody({ message, customerEmail, customerName }) {
   return {
-    access_key: "bd18a29a-fa32-4ba6-a668-9e702ac7cd3f", // TODO: move to env/server in production
+    access_key: "hdegfhgehfbhkey", // TODO: move to env/server in production
     from_name: "Forge Frame Clothing — Order",
     subject: `New Order - ${customerName || customerEmail || "Customer"}`,
     message,
     replyto: customerEmail || "noreply@forgeframe.com",
-    emails: `rezoanbids@gmail.com, ${customerEmail || ""}`.trim(),
+    emails: `, ${customerEmail || ""}`.trim(),
   };
 }
 
@@ -199,7 +199,7 @@ const CheckoutForm = () => {
           image: item.image,
         })),
         transactionId: paymentIntent.id,
-        status: "pending",
+        status: "confirmed",
         date: new Date().toISOString(),
       };
 
@@ -318,9 +318,8 @@ const CheckoutForm = () => {
                   <input
                     type="email"
                     placeholder="Email address"
-                    value={user?.email || ""}
-                    readOnly
-                    className="w-full border border-slate-200 rounded px-4 py-3 text-sm bg-white text-gray-500 cursor-not-allowed"
+                    value={user?.email}
+                    className="w-full border border-slate-200 rounded px-4 py-3 text-sm bg-white text-gray-500"
                   />
                   <input
                     type="tel"

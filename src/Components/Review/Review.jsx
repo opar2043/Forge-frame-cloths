@@ -21,10 +21,17 @@ const REVIEW_DATA = [
   },
   {
     name: "Emma Johnson",
-    rating: 4,
+    rating: 5,
     review:
       "Bought this for a wedding and got so many compliments. The color is gorgeous, I just needed a tiny alteration on the length.",
     image: "https://images.pexels.com/photos/34747810/pexels-photo-34747810.jpeg",
+  },
+    {
+    name: "Ava Wilson",
+    rating: 5,
+    review:
+      "So pleasantly surprised with the quality and workmanship. It flows beautifully when you walk!",
+    image: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg",
   },
   {
     name: "Olivia Brown",
@@ -33,13 +40,7 @@ const REVIEW_DATA = [
       "This dress was EXACTLY what I wanted. It looked amazing and fit perfectly right out of the bag.",
     image: "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg",
   },
-  {
-    name: "Ava Wilson",
-    rating: 4,
-    review:
-      "So pleasantly surprised with the quality and workmanship. It flows beautifully when you walk!",
-    image: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg",
-  },
+
   {
     name: "Isabella Davis",
     rating: 5,
@@ -77,7 +78,7 @@ const ReviewCard = ({ item, index }) => {
       className="bg-white rounded-md shadow-md border border-gray-100 overflow-hidden flex flex-col h-full"
     >
       {/* top image */}
-      <div className="h-52 w-full overflow-hidden">
+      <div className="h-36 w-full overflow-hidden">
         <img
           src={item.image}
           alt={item.name}
@@ -96,7 +97,7 @@ const ReviewCard = ({ item, index }) => {
         {/* name + badge */}
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
-            <span className="font-semibold text-sm text-gray-900">
+            <span className="font-semibold text-xs text-gray-900">
               {item.name}
             </span>
             <span className="text-xs text-gray-400">Verified buyer</span>

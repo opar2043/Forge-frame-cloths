@@ -28,6 +28,8 @@ import CategoryProduct from './Components/Products/Category/CategoryProduct.jsx'
 import Payment from './Components/Dashboard/Order/Payment.jsx';
 import Contact from './Components/About/Contact.jsx';
 import LookBook from './Components/About/LookBook.jsx';
+import Confirm from './Components/Dashboard/Order/Confirm.jsx';
+import Overview from './Components/Dashboard/Admin/Overview.jsx';
 
 const queryClient = new QueryClient()
 
@@ -66,6 +68,10 @@ const router = createBrowserRouter([
         element: <Contact></Contact>
       },
       {
+        path: '/confirm' ,
+        element: <Confirm></Confirm>
+      },
+      {
         path: 'dresses/lookbook' ,
         element: <LookBook></LookBook>
       },
@@ -85,7 +91,7 @@ const router = createBrowserRouter([
     children: [
     {
       path: "/dashboard",
-      element: <AllThing></AllThing>
+      element: <Overview></Overview>
     },
     {
       path: "/dashboard/add-product",

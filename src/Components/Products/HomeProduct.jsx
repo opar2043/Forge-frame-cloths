@@ -6,7 +6,7 @@ import useProducts from "../Hooks/useProducts";
 
 const HomeProducts = () => {
 
-  const [products] = useProducts();
+  const [products , refetch] = useProducts();
 
   const displayedProducts = products?.slice(0, 8);
 

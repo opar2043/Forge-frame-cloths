@@ -38,6 +38,7 @@ const AuthProvider = ({ children }) => {
           timer: 1200,
           showConfirmButton: false,
         });
+        
       } else {
         Swal.fire({
           title: "Already in Cart",
