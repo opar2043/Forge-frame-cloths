@@ -83,9 +83,18 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   // Build unique category list from products
-  const uniqueCategoryNames = Array.from(
-    new Set((products || []).map((p) => p?.category).filter(Boolean))
-  );
+// Build unique categories but EXCLUDE "NEW IN"
+const uniqueCategoryNames = Array.from(
+  new Set(
+    (products || [])
+      .map((p) => p?.category)
+      .filter(
+        (c) =>
+          c && c.toLowerCase() !== "new in" // remove duplicate NEW IN
+      )
+  )
+);
+
 
   // Final CATEGORIES array (static + dynamic)
   // Each has an explicit `path`, and we add a Contact link too.
@@ -104,12 +113,12 @@ const Navbar = () => {
     // { name: "Co Ords", path: categoryPath("Co Ords") },
     // { name: "Lounge wear", path: categoryPath("Lounge wear") },
     // { name: "Trousers", path: categoryPath("Trousers") },
-    { name: "Contact", path: "/contact" },
+    // { name: "Contact", path: "/contact" },
     // { name: "Outerwear", path: categoryPath("Outerwear") },
     // { name: "Accessories", path: categoryPath("Accessories") },
     { name: "Best sellers", path: categoryPath("Best sellers") },
     { name: "SALE", path: categoryPath("SALE") },
-    { name: "Limited edition", path: categoryPath("Limited edition") },
+    // { name: "Limited edition", path: categoryPath("Limited edition") },
     { name: "Trending now", path: categoryPath("Trending now") },
   ];
 

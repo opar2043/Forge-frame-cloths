@@ -6,6 +6,7 @@ import HomeProducts from '../Products/HomeProduct';
 import SwiperCard from '../Products/SwiperCard';
 import Review from '../Review/Review';
 import CategoryData from '../Products/Category/CategoryData';
+import Policy from '../About/Policy';
 
 const Home = () => {
     const ban1 = 'https://marketplace.canva.com/EAFGKRRskMs/1/0/1600w/canva-brown-and-beige-minimalist-fashion-banner-lYcbGpUSVGo.jpg';
@@ -25,6 +26,7 @@ const Home = () => {
         <SwiperCard></SwiperCard>
         <Review></Review>
         <MoreDetails></MoreDetails>
+        <Policy></Policy>
     </div>
   )
 }

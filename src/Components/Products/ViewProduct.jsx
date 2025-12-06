@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
-
+import ReactImageMagnify from "react-image-magnify";
 import useAuth from "../Hooks/useAuth";
 import Modal from "../Review/Modal";
 import useProducts from "../Hooks/useProducts";
@@ -203,6 +203,32 @@ const ViewProduct = () => {
           <div className="flex gap-4">
             {/* Thumbnails */}
             <div className="flex flex-col gap-2 max-h-[480px] overflow-y-auto pr-1">
+
+                {/* <ReactImageMagnify
+                  {...{
+                    smallImage: {
+                      alt: product.name,
+                      isFluidWidth: true,
+                      src: product.images[selectedImage],
+                    },
+                    largeImage: {
+                      src: product.images[selectedImage],
+                      width: 1200,
+                      height: 1200,
+                    },
+                    enlargedImageContainerDimensions: {
+                      width: "130%",
+                      height: "100%",
+                    },
+                    enlargedImageContainerStyle: {
+                      zIndex: 9999,
+                      background: "#fff",
+                      borderRadius: "10px",
+                    },
+                    isHintEnabled: true,
+                    lensStyle: { backgroundColor: "rgba(255,255,255,0.2)" },
+                  }}
+                /> */}
               {images.map((img, idx) => (
                 <motion.button
                   key={idx}

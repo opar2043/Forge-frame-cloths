@@ -2,7 +2,9 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FiPhone, FiMapPin, FiMail } from "react-icons/fi";
+import Swal from "sweetalert2";
 
+/* ================== ANIMATIONS ================== */
 const container = {
   hidden: { opacity: 0, y: 24 },
   visible: {
@@ -21,10 +23,82 @@ const fadeUp = (i = 1) => ({
   },
 });
 
+/* ================== EMAIL HELPERS ================== */
+
+// Build formatted email message
+function buildContactMessage({ name, email, mobile, message }) {
+  const now = new Date().toLocaleString();
+
+  return `
+📩 NEW CONTACT MESSAGE — Forge Frame Clothing
+
+👤 CUSTOMER
+Name: ${name}
+Email: ${email}
+Mobile: ${mobile || "N/A"}
+
+💬 MESSAGE
+${message}
+
+📅 Sent On: ${now}
+
+──────────────────────────────
+🧵 This message was sent from the Forge & Frame Contact Page.
+  `.trim();
+}
+
+// Send email via Web3Forms
+async function sendContactEmail(body) {
+  const response = await fetch("https://api.web3forms.com/submit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  return response.json();
+}
+
+/* ================== COMPONENT ================== */
+
 const Contact = () => {
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: add your submit logic (email / API)
+
+    const formData = new FormData(e.target);
+
+    const name = formData.get("name");
+    const email = formData.get("email");
+    const mobile = formData.get("mobile");
+    const messageText = formData.get("message");
+
+    const formattedMessage = buildContactMessage({
+      name,
+      email,
+      mobile,
+      message: messageText,
+    });
+
+    const payload = {
+      access_key: "46618204-1151-490c-8adc-91c3e15924bb",
+      from_name: "Forge Frame — Contact Form",
+      subject: `New Contact Message from ${name}`,
+      replyto: email,
+      email,
+      message: formattedMessage,
+    };
+
+    try {
+      const result = await sendContactEmail(payload);
+
+      if (result.success) {
+        Swal.fire("Message sent successfully! We will reply shortly.");
+        e.target.reset();
+      } else {
+        alert("Failed to send message. Please try again later.");
+      }
+    } catch (err) {
+      console.error("Contact form error:", err);
+      Swal.fire("Something went wrong. Try again later.");
+    }
   };
 
   return (
@@ -35,35 +109,26 @@ const Contact = () => {
         animate="visible"
         variants={container}
       >
-        {/* Hero text */}
-        <motion.div
-          className="mb-10 md:mb-14 max-w-3xl"
-          variants={fadeUp(1)}
-        >
+        {/* Top Text */}
+        <motion.div className="mb-10 md:mb-14 max-w-3xl" variants={fadeUp(1)}>
           <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-slate-900">
             Contact
           </p>
+
           <h1 className="mt-4 text-3xl md:text-4xl font-semibold tracking-[0.12em] uppercase text-slate-900">
-            Forge &amp; Frame 
+            Forge &amp; Frame
           </h1>
+
           <p className="mt-4 text-sm md:text-base text-slate-600 leading-relaxed">
             Forge &amp; Frame is built on the power of contrast: the quiet
-            precision of the Forge (uncompromising construction, tailored
-            linings, sustainable sourcing) and the bold presence of the Frame
-            (architectural silhouettes, clean lines, confident drape). Our
-            promise—{" "}
-            <span className="font-semibold text-slate-800">
-              Style Without Compromise
-            </span>{" "}
-            —means no trade-offs between quality, fit, ethics, or impact.
-            Crafted in silence, worn loud. Designed so the woman wearing them is
-            always the statement.
+            precision of the Forge and the bold presence of the Frame.
+            Designed so the woman wearing them is always the statement.
           </p>
         </motion.div>
 
-        {/* Content grid */}
+        {/* GRID */}
         <div className="grid grid-cols-1 md:grid-cols-[1.1fr,1fr] gap-10 md:gap-16 items-start">
-          {/* Left: form */}
+          {/* ================================= FORM ================================= */}
           <motion.div
             className="border-t border-slate-200 pt-6"
             variants={fadeUp(2)}
@@ -82,16 +147,7 @@ const Contact = () => {
                   type="text"
                   name="name"
                   required
-                  className="
-                    w-full
-                    bg-transparent
-                    border-b border-slate-300
-                    py-2 text-sm md:text-[15px]
-                    text-slate-900
-                    placeholder:text-slate-400
-                    focus:outline-none focus:border-slate-900
-                    transition-colors duration-150
-                  "
+                  className="w-full bg-transparent border-b border-slate-300 py-2 text-sm md:text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-900"
                   placeholder="Full name"
                 />
               </div>
@@ -104,16 +160,7 @@ const Contact = () => {
                 <input
                   type="tel"
                   name="mobile"
-                  className="
-                    w-full
-                    bg-transparent
-                    border-b border-slate-300
-                    py-2 text-sm md:text-[15px]
-                    text-slate-900
-                    placeholder:text-slate-400
-                    focus:outline-none focus:border-slate-900
-                    transition-colors duration-150
-                  "
+                  className="w-full bg-transparent border-b border-slate-300 py-2 text-sm md:text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-900"
                   placeholder="+44 7…"
                 />
               </div>
@@ -127,16 +174,7 @@ const Contact = () => {
                   type="email"
                   name="email"
                   required
-                  className="
-                    w-full
-                    bg-transparent
-                    border-b border-slate-300
-                    py-2 text-sm md:text-[15px]
-                    text-slate-900
-                    placeholder:text-slate-400
-                    focus:outline-none focus:border-slate-900
-                    transition-colors duration-150
-                  "
+                  className="w-full bg-transparent border-b border-slate-300 py-2 text-sm md:text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-900"
                   placeholder="you@example.com"
                 />
               </div>
@@ -150,47 +188,28 @@ const Contact = () => {
                   name="message"
                   rows={4}
                   required
-                  className="
-                    w-full
-                    bg-transparent
-                    border-b border-slate-300
-                    py-2 text-sm md:text-[15px]
-                    text-slate-900
-                    placeholder:text-slate-400
-                    focus:outline-none focus:border-slate-900
-                    transition-colors duration-150
-                    resize-none
-                  "
-                  placeholder="Tell us about sizing, an order, or how you’d like to wear Forge & Frame…"
+                  className="w-full bg-transparent border-b border-slate-300 py-2 text-sm md:text-[15px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 resize-none"
+                  placeholder="Tell us about sizing, an order, or feedback..."
                 />
               </div>
 
-              {/* Button */}
+              {/* Submit */}
               <motion.button
                 type="submit"
                 whileHover={{ x: 1, y: -1 }}
                 whileTap={{ scale: 0.98 }}
-                className="
-                  mt-4 inline-flex items-center justify-center
-                  px-8 py-2.5
-                  text-sm font-semibold tracking-[0.18em] uppercase
-                  border border-slate-900
-                  bg-slate-900 text-white
-                  hover:bg-white hover:text-slate-900
-                  transition-colors duration-150
-                "
+                className="mt-4 inline-flex items-center justify-center px-8 py-2.5 text-sm font-semibold tracking-[0.18em] uppercase border border-slate-900 bg-slate-900 text-white hover:bg-white hover:text-slate-900 transition"
               >
                 Send Message
               </motion.button>
 
               <p className="mt-3 text-[11px] text-slate-800">
-                We use your details only to respond to your enquiry. No spam,
-                no third-party sharing.
+                We use your details only to respond. No spam, ever.
               </p>
             </form>
           </motion.div>
 
-          {/* Right: details */}
+          {/* ================================= DETAILS ================================= */}
           <motion.div
             className="border-t border-slate-200 pt-6 space-y-6"
             variants={fadeUp(3)}
@@ -204,7 +223,7 @@ const Contact = () => {
                 <FiMapPin className="mt-0.5 text-slate-500" />
                 <div>
                   <p className="font-semibold text-slate-900">Location</p>
-                  <p>Leichter, United Kingdom</p>
+                  <p>Leicester, United Kingdom</p>
                   <p className="text-xs text-slate-500 mt-1">
                     Private studio — visits by appointment only.
                   </p>
@@ -214,7 +233,9 @@ const Contact = () => {
               <div className="flex items-start gap-3">
                 <FiPhone className="mt-0.5 text-slate-500" />
                 <div>
-                  <p className="font-semibold text-slate-900">Phone / WhatsApp</p>
+                  <p className="font-semibold text-slate-900">
+                    Phone / WhatsApp
+                  </p>
                   <p className="select-all">+44 07502 036676</p>
                   <p className="text-xs text-slate-500 mt-1">
                     Mon–Fri, 09:00–17:00 (UK time)
@@ -228,15 +249,15 @@ const Contact = () => {
                   <p className="font-semibold text-slate-900">Email</p>
                   <p className="select-all">Forge-frame@outlook.com</p>
                   <p className="text-xs text-slate-500 mt-1">
-                    We typically respond within one business day.
+                    We respond within one business day.
                   </p>
                 </div>
               </div>
             </div>
 
             <p className="pt-2 text-xs text-slate-500">
-              For press, partnerships, and styling pulls, mention it in your
-              message and it will be routed directly to our studio team.
+              For press, partnerships, or styling requests, mention it in your
+              message. It will reach our studio team directly.
             </p>
           </motion.div>
         </div>

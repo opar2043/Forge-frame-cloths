@@ -31,6 +31,8 @@ import LookBook from './Components/About/LookBook.jsx';
 import Confirm from './Components/Dashboard/Order/Confirm.jsx';
 import Overview from './Components/Dashboard/Admin/Overview.jsx';
 import CategoryInner from './Components/Products/CategoryInner/CategoryInner.jsx';
+import Policy from './Components/About/Policy.jsx';
+import Faq from './Components/About/Faq.jsx';
 
 const queryClient = new QueryClient()
 
@@ -67,6 +69,14 @@ const router = createBrowserRouter([
       {
         path: '/contact' ,
         element: <Contact></Contact>
+      },
+      {
+        path: '/policy' ,
+        element: <Policy></Policy>
+      },
+      {
+        path: '/faq' ,
+        element: <Faq></Faq>
       },
       {
         path: '/confirm' ,

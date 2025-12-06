@@ -9,7 +9,7 @@ const Confirm = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="bg-white shadow rounded-2xl p-8 max-w-lg w-full text-center">
         {/* Success Icon */}
-        <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+        <CheckCircle className="w-16 h-16 text-[#f7c3b3] mx-auto mb-4" />
 
         {/* Title */}
         <h1 className="text-2xl font-bold text-gray-900 mb-2">
@@ -26,7 +26,7 @@ const Confirm = () => {
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <button
             onClick={() => navigate("/")}
-            className="w-full sm:w-auto bg-green-500 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-lg transition-colors"
+            className="w-full sm:w-auto bg-[#f8d2c6] hover:bg-[#f7d2c7] text-slate-900 font-medium py-2 px-6 rounded-lg transition-colors"
           >
             Go to Home
           </button>

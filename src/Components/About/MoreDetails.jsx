@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import Faq from "./Faq";
 
 const container = {
   hidden: { opacity: 0, y: 16 },
@@ -162,7 +163,7 @@ const MoreDetails = () => {
           Signature Collections
         </motion.h4>
         <motion.ul
-          className="list-disc pl-5 text-gray-700 leading-6 space-y-1"
+          className="list-disc pl-5 text-gray-800 leading-6 space-y-1"
           variants={container}
         >
           <motion.li variants={item}>
@@ -200,7 +201,7 @@ const MoreDetails = () => {
       </motion.div>
 
       {/* FAQ */}
-      <motion.div className="mt-10" variants={container}>
+      {/* <motion.div className="mt-10" variants={container}>
         <motion.h4
           className="text-lg font-semibold text-[#1D1E20] mb-3"
           variants={item}
@@ -241,7 +242,9 @@ const MoreDetails = () => {
             </motion.p>
           </motion.div>
         </div>
-      </motion.div>
+      </motion.div> */}
+
+      <Faq></Faq>
     </motion.section>
   );
 };
