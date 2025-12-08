@@ -4,6 +4,7 @@ import auth from "./firebase.config";
 import useAxios from "../Hooks/useAxios";
 import Swal from "sweetalert2";
 import useProducts from "../Hooks/useProducts";
+import useCart from "../Hooks/useCart";
 
 
 export const AuthContext = createContext();
@@ -14,7 +15,7 @@ const AuthProvider = ({ children }) => {
   const provider = new GoogleAuthProvider();
   const [quantities, setQuantities] = useState({});
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
-  const [products, refetch] = useProducts()
+  const [cart , refetch] = useCart();
 
 
 

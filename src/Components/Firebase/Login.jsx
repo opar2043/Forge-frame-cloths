@@ -162,7 +162,7 @@ const Login = () => {
           </div>
 
           {/* Google button */}
-          <button
+          {/* <button
             type="button"
             onClick={handleGoogleAccount}
             className="mx-auto flex items-center justify-center gap-3 border border-slate-300 bg-white px-5 py-2 rounded-md"
@@ -170,7 +170,7 @@ const Login = () => {
           >
             <FcGoogle size={20} />
             <span className="text-slate-900">Google</span>
-          </button>
+          </button> */}
         </form>
       </motion.div>
     </section>

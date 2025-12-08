@@ -191,7 +191,7 @@ const MoreDetails = () => {
           Ready to elevate your style? Follow us on{" "}
           <a
             href="https://www.instagram.com/forgeandframe_uk?igsh=MTBwbXU0aGNueTN5Zg%3D%3D&utm_source=qr"
-            className="underline decoration-gray-400 underline-offset-2 hover:decoration-gray-800 transition"
+            className="underline decoration-gray-800 underline-offset-2 hover:decoration-gray-800 transition text-gray-900"
           >
             Instagram
           </a>{" "}
@@ -244,7 +244,7 @@ const MoreDetails = () => {
         </div>
       </motion.div> */}
 
-      <Faq></Faq>
+      {/* <Faq></Faq> */}
     </motion.section>
   );
 };

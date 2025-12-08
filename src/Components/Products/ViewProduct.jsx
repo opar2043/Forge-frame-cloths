@@ -77,7 +77,7 @@ const ViewProduct = () => {
     }
   }, [product]);
 
-  // 🔥 POST review to backend + update local state
+  // 🔥 POST review
   const handleReviewSubmit = async (data) => {
     try {
       const payload = {
@@ -85,13 +85,12 @@ const ViewProduct = () => {
         productName: Array.isArray(product.name)
           ? product.name[0]
           : product.name,
-        ...data, // { name, rating, review }
+        ...data,
         createdAt: new Date().toISOString(),
       };
 
       const res = await axiosSecure.post("/reviews", payload);
 
-      // you can adjust success condition based on your API
       if (res.data?.insertedId || res.data?.success) {
         setReviews((prev) => [
           ...prev,
@@ -170,6 +169,7 @@ const ViewProduct = () => {
     setSelectedColor(c);
   };
 
+  // ✅ FIXED: NOW SENDING ONLY ONE IMAGE
   const handleAddToCart = () => {
     const cartItem = {
       id: product._id,
@@ -177,7 +177,7 @@ const ViewProduct = () => {
       price: getPriceNumber(product.price),
       color: selectedColor,
       size: selectedSize,
-      image: images,
+      image: images[selectedImageIndex],  // ✅ FIXED HERE
     };
     handleCart(cartItem);
   };
@@ -203,32 +203,6 @@ const ViewProduct = () => {
           <div className="flex gap-4">
             {/* Thumbnails */}
             <div className="flex flex-col gap-2 max-h-[480px] overflow-y-auto pr-1">
-
-                {/* <ReactImageMagnify
-                  {...{
-                    smallImage: {
-                      alt: product.name,
-                      isFluidWidth: true,
-                      src: product.images[selectedImage],
-                    },
-                    largeImage: {
-                      src: product.images[selectedImage],
-                      width: 1200,
-                      height: 1200,
-                    },
-                    enlargedImageContainerDimensions: {
-                      width: "130%",
-                      height: "100%",
-                    },
-                    enlargedImageContainerStyle: {
-                      zIndex: 9999,
-                      background: "#fff",
-                      borderRadius: "10px",
-                    },
-                    isHintEnabled: true,
-                    lensStyle: { backgroundColor: "rgba(255,255,255,0.2)" },
-                  }}
-                /> */}
               {images.map((img, idx) => (
                 <motion.button
                   key={idx}
@@ -279,7 +253,6 @@ const ViewProduct = () => {
             animate={{ opacity: 1, x: 0 }}
             className="space-y-6"
           >
-            {/* Title & price */}
             <div>
               <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">
                 {title}

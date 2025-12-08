@@ -26,7 +26,7 @@ const Home = () => {
         <SwiperCard></SwiperCard>
         <Review></Review>
         <MoreDetails></MoreDetails>
-        <Policy></Policy>
+        {/* <Policy></Policy> */}
     </div>
   )
 }

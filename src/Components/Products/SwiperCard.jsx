@@ -19,7 +19,7 @@ const SwiperCard = () => {
   return (
     <div className="w-full py-10 bg-white">
       {/* Title */}
-      <div className="max-w-6xl mx-auto px-4 mb-6 flex items-center justify-between">
+      <div className="max-w-6xl  mx-auto px-4 mb-6 flex items-center justify-between">
         <div>
           <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-950">
             Wedding Guest Dresses
