@@ -3,14 +3,12 @@ import { useParams } from "react-router-dom";
 import { X, Upload, Plus } from "lucide-react";
 import useAxios from "../../Hooks/useAxios";
 import useProducts from "../../Hooks/useProducts";
-import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-
 
 const img_api_key =
   "https://api.imgbb.com/1/upload?key=188918a9c4dee4bd0453f7ec15042a27";
 
-const EditProduct = () => {
+const EditProducts = () => {
   const { id } = useParams();
   const axiosSecure = useAxios();
   const [products, refetch, isLoading] = useProducts();
@@ -19,7 +17,6 @@ const EditProduct = () => {
     name: "",
     description: "",
     price: "",
-    currency: "USD",
     category: "",
     size: [],
     color: [],
@@ -40,6 +37,8 @@ const EditProduct = () => {
   const [saving, setSaving] = useState(false);
   const [newSize, setNewSize] = useState("");
   const [newImageUrl, setNewImageUrl] = useState("");
+  const [newColor, setNewColor] = useState("");
+  const [newMaterial, setNewMaterial] = useState("");
 
   const options = {
     materials: [
@@ -66,7 +65,15 @@ const EditProduct = () => {
       "comfy",
       "summer",
     ],
-    fit: ["Relaxed", "Tailored", "Slim", "Modest", "Flowy", "Regular", "Wide Leg"],
+    fit: [
+      "Relaxed",
+      "Tailored",
+      "Slim",
+      "Modest",
+      "Flowy",
+      "Regular",
+      "Wide Leg",
+    ],
     subcategory: [
       "Maxi Dress",
       "Slip Dress",
@@ -107,14 +114,24 @@ const EditProduct = () => {
     ],
   };
 
-  // 🔎 find current product by id (Mongo usually uses _id)
-  const currentProduct = products?.find((p) => p._id === id || p._id === id);
+  // Find current product
+  const currentProduct = products?.find((p) => p._id === id || p.id === id);
 
-  // ✅ pre-fill when product is loaded
+  // Pre-fill form when product is loaded
   useEffect(() => {
     if (!currentProduct) return;
 
-    const imgs = currentProduct.images || [];
+    console.log("Current product data:", currentProduct);
+
+    // Handle images - ensure it's always an array
+    let imgs = [];
+    if (Array.isArray(currentProduct.images)) {
+      imgs = currentProduct.images;
+    } else if (currentProduct.images) {
+      imgs = [currentProduct.images];
+    }
+
+    // Handle featured image
     const featured = currentProduct.featured_image;
     let featuredIndex = 0;
     if (featured && imgs.length) {
@@ -125,8 +142,7 @@ const EditProduct = () => {
     setFormData({
       name: currentProduct.name || "",
       description: currentProduct.description || "",
-      price: currentProduct.price || "",
-      currency: currentProduct.currency || "USD",
+      price: currentProduct.price?.toString() || "",
       category: currentProduct.category || "",
       size: currentProduct.sizes || currentProduct.size || [],
       color: currentProduct.color || [],
@@ -137,14 +153,13 @@ const EditProduct = () => {
       audience: currentProduct.audience || ["Women"],
       images: imgs,
       featuredImageIndex: featuredIndex,
-      isTrending: !!currentProduct.isTrending,
-      isLimitedEdition: !!currentProduct.isLimitedEdition,
-      isOnSale: !!currentProduct.isOnSale,
+      isTrending: Boolean(currentProduct.isTrending),
+      isLimitedEdition: Boolean(currentProduct.isLimitedEdition),
+      isOnSale: Boolean(currentProduct.isOnSale),
       reviews: currentProduct.reviews || [],
     });
   }, [currentProduct]);
 
-  // basic change handler (non-file)
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     if (type === "file") return;
@@ -163,22 +178,28 @@ const EditProduct = () => {
     }));
   };
 
-  // upload to imgbb and append URLs
   const handleImageUpload = async (e) => {
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
 
     try {
       setUploading(true);
-      const loadingId = toast.loading("Uploading image(s)...");
+      
+      Swal.fire({
+        title: 'Uploading Images...',
+        text: 'Please wait while we upload your images.',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
 
       const uploadedUrls = [];
 
       for (const file of files) {
-        const isImg =
-          /image\/(png|jpe?g|gif|webp|bmp|svg\+xml)$/i.test(file.type);
+        // Accept all image formats
+        const isImg = /^image\//.test(file.type);
         if (!isImg) {
-          toast.error(`Skipped non-image file: ${file.name}`);
           continue;
         }
 
@@ -196,20 +217,34 @@ const EditProduct = () => {
         uploadedUrls.push(url);
       }
 
-      toast.dismiss(loadingId);
-
       if (!uploadedUrls.length) {
-        return toast.error("No valid images uploaded.");
+        Swal.fire({
+          icon: 'error',
+          title: 'No Valid Images',
+          text: 'No valid images were uploaded.',
+        });
+        return;
       }
 
       setFormData((prev) => ({
         ...prev,
         images: [...prev.images, ...uploadedUrls],
       }));
-      toast.success("Image(s) uploaded!");
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Images Uploaded!',
+        text: `${uploadedUrls.length} image(s) uploaded successfully.`,
+        timer: 2000,
+        showConfirmButton: false,
+      });
     } catch (err) {
       console.error(err);
-      toast.error(err?.message || "Image upload failed.");
+      Swal.fire({
+        icon: 'error',
+        title: 'Upload Failed',
+        text: err?.message || "Image upload failed. Please try again.",
+      });
     } finally {
       setUploading(false);
     }
@@ -217,7 +252,24 @@ const EditProduct = () => {
 
   const handleAddImageUrl = () => {
     const url = newImageUrl.trim();
-    if (!url) return;
+    if (!url) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Empty URL',
+        text: 'Please enter a valid image URL.',
+      });
+      return;
+    }
+
+    // Basic URL validation
+    if (!url.startsWith('http')) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid URL',
+        text: 'Please enter a valid URL starting with http:// or https://',
+      });
+      return;
+    }
 
     setFormData((prev) => ({
       ...prev,
@@ -227,23 +279,35 @@ const EditProduct = () => {
   };
 
   const removeImage = (index) => {
-    setFormData((prev) => {
-      const newImages = prev.images.filter((_, i) => i !== index);
-      let newFeatured = prev.featuredImageIndex;
+    Swal.fire({
+      title: 'Remove Image?',
+      text: 'Are you sure you want to remove this image?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, remove it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setFormData((prev) => {
+          const newImages = prev.images.filter((_, i) => i !== index);
+          let newFeatured = prev.featuredImageIndex;
 
-      if (!newImages.length) {
-        newFeatured = 0;
-      } else if (index === prev.featuredImageIndex) {
-        newFeatured = 0;
-      } else if (index < prev.featuredImageIndex) {
-        newFeatured = prev.featuredImageIndex - 1;
+          if (newImages.length === 0) {
+            newFeatured = 0;
+          } else if (index === prev.featuredImageIndex) {
+            newFeatured = 0;
+          } else if (index < prev.featuredImageIndex) {
+            newFeatured = prev.featuredImageIndex - 1;
+          }
+
+          return {
+            ...prev,
+            images: newImages,
+            featuredImageIndex: newFeatured,
+          };
+        });
       }
-
-      return {
-        ...prev,
-        images: newImages,
-        featuredImageIndex: newFeatured,
-      };
     });
   };
 
@@ -256,11 +320,24 @@ const EditProduct = () => {
 
   const handleAddSize = () => {
     const value = newSize.trim().toUpperCase();
-    if (!value) return;
+    if (!value) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Empty Size',
+        text: 'Please enter a size value.',
+      });
+      return;
+    }
     if (formData.size.includes(value)) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Size Exists',
+        text: 'This size is already added.',
+      });
       setNewSize("");
       return;
     }
+
     setFormData((prev) => ({
       ...prev,
       size: [...prev.size, value],
@@ -275,22 +352,75 @@ const EditProduct = () => {
     }));
   };
 
-  // 🔥 PATCH product (like EditItem.handleSubmit)
+  const handleAddColor = () => {
+    const value = newColor.trim();
+    if (!value) return;
+    if (formData.color.includes(value)) {
+      setNewColor("");
+      return;
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      color: [...prev.color, value],
+    }));
+    setNewColor("");
+  };
+
+  const handleRemoveColor = (colorToRemove) => {
+    setFormData((prev) => ({
+      ...prev,
+      color: prev.color.filter((c) => c !== colorToRemove),
+    }));
+  };
+
+  const handleAddMaterial = () => {
+    const value = newMaterial.trim();
+    if (!value) return;
+    if (formData.materials.includes(value)) {
+      setNewMaterial("");
+      return;
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      materials: [...prev.materials, value],
+    }));
+    setNewMaterial("");
+  };
+
+  const handleRemoveMaterial = (materialToRemove) => {
+    setFormData((prev) => ({
+      ...prev,
+      materials: prev.materials.filter((m) => m !== materialToRemove),
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!formData.name || !formData.price || !formData.category) {
-      return toast.error("Please fill in name, price and category.");
+      Swal.fire({
+        icon: 'error',
+        title: 'Missing Information',
+        text: 'Please fill in name, price and category.',
+      });
+      return;
     }
+
     if (!formData.images.length) {
-      return toast.error("Please add at least one product image.");
+      Swal.fire({
+        icon: 'error',
+        title: 'No Images',
+        text: 'Please upload at least one product photo.',
+      });
+      return;
     }
 
     const updatedData = {
       name: formData.name,
       description: formData.description,
       price: parseFloat(formData.price),
-      currency: formData.currency,
       category: formData.category,
       subcategory: formData.subcategory,
       audience: formData.audience,
@@ -308,25 +438,62 @@ const EditProduct = () => {
       slug: formData.name.toLowerCase().replace(/\s+/g, "-"),
     };
 
+    console.log("Sending update data:", updatedData);
+
     try {
       setSaving(true);
-      const res = await axiosSecure.patch(`/products/${id}`, updatedData);
+      
+      Swal.fire({
+        title: 'Updating Product...',
+        text: 'Please wait while we update your product.',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
 
-      if (res.data.modifiedCount > 0 || res.status === 200) {
-        Swal.fire("✅ Product updated successfully!");
-        if (refetch) refetch();
+      // Try PUT first, then PATCH if PUT doesn't work
+      let res;
+      try {
+        res = await axiosSecure.put(`/products/${id}`, updatedData);
+      } catch (putError) {
+        console.log("PUT failed, trying PATCH:", putError);
+        res = await axiosSecure.patch(`/products/${id}`, updatedData);
+      }
+
+      console.log("Update response:", res);
+
+      if (res.data.modifiedCount > 0 || res.data.success || res.status === 200) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Product Updated!',
+          text: 'Product has been updated successfully.',
+          timer: 2000,
+          showConfirmButton: false
+        });
+        
+        if (refetch) {
+          await refetch();
+        }
       } else {
-        toast.error(" No changes were made.");
+        Swal.fire({
+          icon: 'info',
+          title: 'No Changes',
+          text: 'No changes were made to the product.',
+        });
       }
     } catch (err) {
-      console.error(err);
-      toast.error("⚠️ Something went wrong. Please check your connection.");
+      console.error("Update error:", err);
+      Swal.fire({
+        icon: 'error',
+        title: 'Update Failed',
+        text: err.response?.data?.message || 'Something went wrong. Please try again.',
+      });
     } finally {
       setSaving(false);
     }
   };
 
-  // basic loading / not-found states
   if (isLoading && !currentProduct) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
@@ -383,7 +550,7 @@ const EditProduct = () => {
 
               <div>
                 <label className="block text-xs font-medium text-slate-600 mb-1.5">
-                  Price (USD) *
+                  Price (GBP) *
                 </label>
                 <input
                   type="number"
@@ -424,8 +591,7 @@ const EditProduct = () => {
               <label className="block text-xs font-medium text-slate-600 mb-1.5">
                 Category *
               </label>
-{
-     formData.category &&           <select
+              <select
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
@@ -434,12 +600,11 @@ const EditProduct = () => {
               >
                 <option value="">Select category</option>
                 {options.categories.map((cat) => (
-                                  <option key={cat} value={cat}>
+                  <option key={cat} value={cat}>
                     {cat}
                   </option>
                 ))}
               </select>
-}
             </div>
 
             {/* Sizes */}
@@ -505,11 +670,12 @@ const EditProduct = () => {
             </div>
 
             {/* Colors */}
-            <div>
+            <div className="space-y-2">
               <label className="block text-xs font-medium text-slate-600 mb-1.5">
                 Colors *
               </label>
-              <div className="flex flex-wrap gap-2">
+
+              <div className="flex flex-wrap gap-2 mb-2">
                 {options.colors.map((col) => (
                   <button
                     key={col}
@@ -525,6 +691,44 @@ const EditProduct = () => {
                   </button>
                 ))}
               </div>
+
+              <div className="flex flex-col sm:flex-row gap-2">
+                <input
+                  type="text"
+                  value={newColor}
+                  onChange={(e) => setNewColor(e.target.value)}
+                  placeholder="Add custom color (e.g. Midnight Blue, Burgundy)"
+                  className="w-full sm:flex-1 px-3 py-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-slate-700 focus:ring-1 focus:ring-slate-700/20 bg-white text-slate-900 placeholder:text-slate-500"
+                />
+                <button
+                  type="button"
+                  onClick={handleAddColor}
+                  className="inline-flex items-center justify-center gap-1 px-3 py-2 text-xs font-medium rounded-md border border-slate-300 text-slate-800 hover:bg-slate-50"
+                >
+                  <Plus size={14} />
+                  Add color
+                </button>
+              </div>
+
+              {formData.color.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-1">
+                  {formData.color.map((color) => (
+                    <span
+                      key={color}
+                      className="inline-flex items-center gap-1 px-2.5 py-1 text-xs rounded-full border border-slate-200 bg-slate-50 text-slate-700"
+                    >
+                      {color}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveColor(color)}
+                        className="text-slate-400 hover:text-slate-700"
+                      >
+                        <X size={12} />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </section>
 
@@ -574,11 +778,12 @@ const EditProduct = () => {
               </div>
 
               {/* Materials */}
-              <div>
+              <div className="space-y-2 md:col-span-2">
                 <label className="block text-xs font-medium text-slate-600 mb-1.5">
                   Materials *
                 </label>
-                <div className="flex flex-wrap gap-2">
+
+                <div className="flex flex-wrap gap-2 mb-2">
                   {options.materials.map((mat) => (
                     <button
                       key={mat}
@@ -594,6 +799,44 @@ const EditProduct = () => {
                     </button>
                   ))}
                 </div>
+
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <input
+                    type="text"
+                    value={newMaterial}
+                    onChange={(e) => setNewMaterial(e.target.value)}
+                    placeholder="Add custom material (e.g. Cashmere, Velvet)"
+                    className="w-full sm:flex-1 px-3 py-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-slate-700 focus:ring-1 focus:ring-slate-700/20 bg-white text-slate-900 placeholder:text-slate-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleAddMaterial}
+                    className="inline-flex items-center justify-center gap-1 px-3 py-2 text-xs font-medium rounded-md border border-slate-300 text-slate-800 hover:bg-slate-50"
+                  >
+                    <Plus size={14} />
+                    Add material
+                  </button>
+                </div>
+
+                {formData.materials.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-1">
+                    {formData.materials.map((material) => (
+                      <span
+                        key={material}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 text-xs rounded-full border border-slate-200 bg-slate-50 text-slate-700"
+                      >
+                        {material}
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveMaterial(material)}
+                          className="text-slate-400 hover:text-slate-700"
+                        >
+                          <X size={12} />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -637,7 +880,9 @@ const EditProduct = () => {
                   <p className="text-sm font-medium text-slate-700">
                     Click to upload
                   </p>
-                  <p className="text-xs text-slate-500">PNG, JPG up to 5MB</p>
+                  <p className="text-xs text-slate-500">
+                    All image formats accepted
+                  </p>
                   {uploading && (
                     <p className="mt-1 text-xs text-slate-500">
                       Uploading image(s)...
@@ -671,7 +916,7 @@ const EditProduct = () => {
                 </button>
               </div>
 
-              {formData.images.length > 0 && (
+              {formData.images.length > 0 ? (
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3 pt-2">
                   {formData.images.map((img, idx) => (
                     <div
@@ -682,11 +927,14 @@ const EditProduct = () => {
                           : "border-slate-200"
                       }`}
                     >
-                
                       <img
                         src={img}
                         alt={`Product image ${idx + 1}`}
                         className="w-full h-28 object-cover"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = "https://via.placeholder.com/150?text=Image+Error";
+                        }}
                       />
                       <div className="absolute inset-x-0 bottom-0 flex justify-between items-center px-2 py-1 bg-black/40 text-[10px] text-white">
                         <button
@@ -709,6 +957,8 @@ const EditProduct = () => {
                     </div>
                   ))}
                 </div>
+              ) : (
+                <p className="text-sm text-slate-500 italic">No images added yet</p>
               )}
             </div>
           </section>
@@ -768,4 +1018,4 @@ const EditProduct = () => {
   );
 };
 
-export default EditProduct;
+export default EditProducts;

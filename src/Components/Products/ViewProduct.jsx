@@ -342,7 +342,7 @@ const ViewProduct = () => {
               </motion.button>
 
               <div className="flex items-center gap-3 text-xs text-gray-500">
-                <span>Free shipping over $89</span>
+                <span>Free shipping over £ 89</span>
               </div>
             </div>
 
@@ -351,11 +351,11 @@ const ViewProduct = () => {
               <p className="font-semibold">Product Description</p>
               <p>{product.description}</p>
               <p>
-                Fit: <span className="font-normal">{product.fit}</span>
+                <span className="text-gray-900 ">Fit:{" "}</span> <span className="font-normal">{product.fit}</span>
               </p>
               {product.materials && (
                 <p>
-                  Materials:{" "}
+                  <span className="text-gray-900">Materials:{" "}</span>
                   <span className="font-normal">
                     {product.materials.join(", ")}
                   </span>

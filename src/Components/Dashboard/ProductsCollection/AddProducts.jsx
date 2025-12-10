@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { X, Upload, Plus } from "lucide-react";
-
 import useAxios from "../../Hooks/useAxios";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const img_api_key =
   "https://api.imgbb.com/1/upload?key=188918a9c4dee4bd0453f7ec15042a27";
@@ -14,15 +14,15 @@ const AddProducts = () => {
     name: "",
     description: "",
     price: "",
-    category: "", // single category
-    size: [], // array
+    category: "",
+    size: [],
     color: [],
     materials: [],
     fit: "",
     tags: [],
     subcategory: "",
     audience: ["Women"],
-    images: [], // array of img URLs
+    images: [],
     featuredImageIndex: 0,
     isTrending: false,
     isLimitedEdition: false,
@@ -35,6 +35,8 @@ const AddProducts = () => {
   const [uploading, setUploading] = useState(false);
   const [newSize, setNewSize] = useState("");
   const [newImageUrl, setNewImageUrl] = useState("");
+  const [newColor, setNewColor] = useState("");
+  const [newMaterial, setNewMaterial] = useState("");
 
   const options = {
     materials: [
@@ -61,7 +63,15 @@ const AddProducts = () => {
       "comfy",
       "summer",
     ],
-    fit: ["Relaxed", "Tailored", "Slim", "Modest", "Flowy", "Regular", "Wide Leg"],
+    fit: [
+      "Relaxed",
+      "Tailored",
+      "Slim",
+      "Modest",
+      "Flowy",
+      "Regular",
+      "Wide Leg",
+    ],
     subcategory: [
       "Maxi Dress",
       "Slip Dress",
@@ -102,7 +112,6 @@ const AddProducts = () => {
     ],
   };
 
-  // 🔹 handle all non-file inputs (same idea as AddItem.handleChange)
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     if (type === "file") return;
@@ -112,7 +121,6 @@ const AddProducts = () => {
     }));
   };
 
-  // chip toggles (color, materials, tags, quick size)
   const handleMultiSelect = (field, value) => {
     setFormData((prev) => ({
       ...prev,
@@ -122,7 +130,6 @@ const AddProducts = () => {
     }));
   };
 
-  // 🔹 file(s) -> upload to imgbb -> push URLs into images[]
   const handleImageUpload = async (e) => {
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
@@ -134,8 +141,9 @@ const AddProducts = () => {
       const uploadedUrls = [];
 
       for (const file of files) {
-        const isImg =
-          /image\/(png|jpe?g|gif|webp|bmp|svg\+xml)$/i.test(file.type);
+        const isImg = /image\/(png|jpe?g|gif|webp|bmp|svg\+xml)$/i.test(
+          file.type
+        );
         if (!isImg) {
           toast.error(`Skipped non-image file: ${file.name}`);
           continue;
@@ -166,10 +174,20 @@ const AddProducts = () => {
         images: [...prev.images, ...uploadedUrls],
       }));
 
-      toast.success("Image(s) uploaded!");
+      Swal.fire({
+        icon: "success",
+        title: "Images Uploaded!",
+        text: `${uploadedUrls.length} image(s) uploaded successfully.`,
+        timer: 2000,
+        showConfirmButton: false,
+      });
     } catch (err) {
       console.error(err);
-      toast.error(err?.message || "Image upload failed.");
+      Swal.fire({
+        icon: "error",
+        title: "Upload Failed",
+        text: err?.message || "Image upload failed.",
+      });
     } finally {
       setUploading(false);
     }
@@ -177,33 +195,72 @@ const AddProducts = () => {
 
   const handleAddImageUrl = () => {
     const url = newImageUrl.trim();
-    if (!url) return;
+    if (!url) {
+      Swal.fire({
+        icon: "warning",
+        title: "Empty URL",
+        text: "Please enter a valid image URL.",
+      });
+      return;
+    }
+
+    // Basic URL validation
+    if (!url.startsWith("http")) {
+      Swal.fire({
+        icon: "error",
+        title: "Invalid URL",
+        text: "Please enter a valid URL starting with http:// or https://",
+      });
+      return;
+    }
 
     setFormData((prev) => ({
       ...prev,
       images: [...prev.images, url],
     }));
     setNewImageUrl("");
+
+    Swal.fire({
+      icon: "success",
+      title: "Image Added!",
+      text: "Image URL added successfully.",
+      timer: 300,
+      showConfirmButton: false,
+    });
   };
 
   const removeImage = (index) => {
-    setFormData((prev) => {
-      const newImages = prev.images.filter((_, i) => i !== index);
-      let newFeatured = prev.featuredImageIndex;
+    Swal.fire({
+      title: "Remove Image?",
+      text: "Are you sure you want to remove this image?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, remove it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setFormData((prev) => {
+          const newImages = prev.images.filter((_, i) => i !== index);
+          let newFeatured = prev.featuredImageIndex;
 
-      if (newImages.length === 0) {
-        newFeatured = 0;
-      } else if (index === prev.featuredImageIndex) {
-        newFeatured = 0;
-      } else if (index < prev.featuredImageIndex) {
-        newFeatured = prev.featuredImageIndex - 1;
+          if (newImages.length === 0) {
+            newFeatured = 0;
+          } else if (index === prev.featuredImageIndex) {
+            newFeatured = 0;
+          } else if (index < prev.featuredImageIndex) {
+            newFeatured = prev.featuredImageIndex - 1;
+          }
+
+          return {
+            ...prev,
+            images: newImages,
+            featuredImageIndex: newFeatured,
+          };
+        });
+
+        Swal.fire("Removed!", "Image has been removed.", "success");
       }
-
-      return {
-        ...prev,
-        images: newImages,
-        featuredImageIndex: newFeatured,
-      };
     });
   };
 
@@ -212,12 +269,31 @@ const AddProducts = () => {
       ...prev,
       featuredImageIndex: index,
     }));
+    Swal.fire({
+      icon: "success",
+      title: "Main Photo Updated!",
+      text: "This image is now set as the main product photo.",
+      timer: 300,
+      showConfirmButton: false,
+    });
   };
 
   const handleAddSize = () => {
     const value = newSize.trim().toUpperCase();
-    if (!value) return;
+    if (!value) {
+      Swal.fire({
+        icon: "warning",
+        title: "Empty Size",
+        text: "Please enter a size value.",
+      });
+      return;
+    }
     if (formData.size.includes(value)) {
+      Swal.fire({
+        icon: "info",
+        title: "Size Exists",
+        text: "This size is already added.",
+      });
       setNewSize("");
       return;
     }
@@ -227,6 +303,14 @@ const AddProducts = () => {
       size: [...prev.size, value],
     }));
     setNewSize("");
+
+    Swal.fire({
+      icon: "success",
+      title: "Size Added!",
+      text: `Size "${value}" added successfully.`,
+      timer: 300,
+      showConfirmButton: false,
+    });
   };
 
   const handleRemoveSize = (sizeToRemove) => {
@@ -234,18 +318,126 @@ const AddProducts = () => {
       ...prev,
       size: prev.size.filter((s) => s !== sizeToRemove),
     }));
+    Swal.fire(
+      "Removed!",
+      `Size "${sizeToRemove}" has been removed.`,
+      "success"
+    );
   };
 
-  // 🔥 POST – same style as AddItem.handleSubmit
+  const handleAddColor = () => {
+    const value = newColor.trim();
+    if (!value) {
+      Swal.fire({
+        icon: "warning",
+        title: "Empty Color",
+        text: "Please enter a color name.",
+      });
+      return;
+    }
+    if (formData.color.includes(value)) {
+      Swal.fire({
+        icon: "info",
+        title: "Color Exists",
+        text: "This color is already added.",
+      });
+      setNewColor("");
+      return;
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      color: [...prev.color, value],
+    }));
+    setNewColor("");
+
+    Swal.fire({
+      icon: "success",
+      title: "Color Added!",
+      text: `Color "${value}" added successfully.`,
+      timer: 500,
+      showConfirmButton: false,
+    });
+  };
+
+  const handleRemoveColor = (colorToRemove) => {
+    setFormData((prev) => ({
+      ...prev,
+      color: prev.color.filter((c) => c !== colorToRemove),
+    }));
+    Swal.fire(
+      "Removed!",
+      `Color "${colorToRemove}" has been removed.`,
+      "success"
+    );
+  };
+
+  const handleAddMaterial = () => {
+    const value = newMaterial.trim();
+    if (!value) {
+      Swal.fire({
+        icon: "warning",
+        title: "Empty Material",
+        text: "Please enter a material name.",
+      });
+      return;
+    }
+    if (formData.materials.includes(value)) {
+      Swal.fire({
+        icon: "info",
+        title: "Material Exists",
+        text: "This material is already added.",
+      });
+      setNewMaterial("");
+      return;
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      materials: [...prev.materials, value],
+    }));
+    setNewMaterial("");
+
+    Swal.fire({
+      icon: "success",
+      title: "Material Added!",
+      text: `Material "${value}" added successfully.`,
+      timer: 300,
+      showConfirmButton: false,
+    });
+  };
+
+  const handleRemoveMaterial = (materialToRemove) => {
+    setFormData((prev) => ({
+      ...prev,
+      materials: prev.materials.filter((m) => m !== materialToRemove),
+    }));
+    Swal.fire(
+      "Removed!",
+      `Material "${materialToRemove}" has been removed.`,
+      "success"
+    );
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!formData.name || !formData.price || !formData.category) {
-      return toast.error("Please fill in name, price and category.");
+      Swal.fire({
+        icon: "error",
+        title: "Missing Information",
+        text: "Please fill in name, price and category.",
+      });
+      return;
     }
 
     if (!formData.images.length) {
-      return toast.error("Please upload at least one product photo.");
+      Swal.fire({
+        icon: "error",
+        title: "No Images",
+        text: "Please upload at least one product photo.",
+      });
+      return;
     }
 
     const dataToSend = {
@@ -261,14 +453,31 @@ const AddProducts = () => {
 
     try {
       setLoading(true);
+
+      // Show loading Swal
+      Swal.fire({
+        title: "Adding Product...",
+        text: "Please wait while we save your product.",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
       const res = await axiosSecure.post("/products", dataToSend);
 
       if (res.data.insertedId || res.status === 200 || res.status === 201) {
-        toast.success("✅ Product added successfully!");
+        Swal.fire({
+          icon: "success",
+          title: "Product Added!",
+          text: "Product has been added successfully.",
+          showConfirmButton: false,
+          timer: 2000,
+        });
 
         setPostedData(dataToSend);
 
-        // reset form
+        // Reset form
         setFormData({
           name: "",
           description: "",
@@ -291,19 +500,28 @@ const AddProducts = () => {
 
         setNewSize("");
         setNewImageUrl("");
+        setNewColor("");
+        setNewMaterial("");
 
-        // clear file input(s)
+        // Clear file input(s)
         const fileInputs = document.querySelectorAll('input[type="file"]');
         fileInputs.forEach((input) => {
-          // eslint-disable-next-line no-param-reassign
           input.value = "";
         });
       } else {
-        toast.error("❌ Failed to add product. Please try again.");
+        Swal.fire({
+          icon: "error",
+          title: "Failed",
+          text: "Failed to add product. Please try again.",
+        });
       }
     } catch (err) {
       console.error(err);
-      toast.error("⚠️ Something went wrong. Please check your connection.");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Something went wrong. Please check your connection.",
+      });
     } finally {
       setLoading(false);
     }
@@ -321,7 +539,6 @@ const AddProducts = () => {
           </p>
         </div>
 
-        {/* form like AddItem */}
         <form
           onSubmit={handleSubmit}
           className="bg-white border border-slate-200 rounded-xl shadow-sm p-4 md:p-6 space-y-6"
@@ -350,7 +567,7 @@ const AddProducts = () => {
 
               <div>
                 <label className="block text-xs font-medium text-slate-600 mb-1.5">
-                  Price (USD) *
+                  Price (GBP) *
                 </label>
                 <input
                   type="number"
@@ -470,11 +687,12 @@ const AddProducts = () => {
             </div>
 
             {/* Colors */}
-            <div>
+            <div className="space-y-2">
               <label className="block text-xs font-medium text-slate-600 mb-1.5">
                 Colors *
               </label>
-              <div className="flex flex-wrap gap-2">
+
+              <div className="flex flex-wrap gap-2 mb-2">
                 {options.colors.map((col) => (
                   <button
                     key={col}
@@ -490,6 +708,44 @@ const AddProducts = () => {
                   </button>
                 ))}
               </div>
+
+              <div className="flex flex-col sm:flex-row gap-2">
+                <input
+                  type="text"
+                  value={newColor}
+                  onChange={(e) => setNewColor(e.target.value)}
+                  placeholder="Add custom color (e.g. Midnight Blue, Burgundy)"
+                  className="w-full sm:flex-1 px-3 py-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-slate-700 focus:ring-1 focus:ring-slate-700/20 bg-white text-slate-900 placeholder:text-slate-500"
+                />
+                <button
+                  type="button"
+                  onClick={handleAddColor}
+                  className="inline-flex items-center justify-center gap-1 px-3 py-2 text-xs font-medium rounded-md border border-slate-300 text-slate-800 hover:bg-slate-50"
+                >
+                  <Plus size={14} />
+                  Add color
+                </button>
+              </div>
+
+              {formData.color.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-1">
+                  {formData.color.map((color) => (
+                    <span
+                      key={color}
+                      className="inline-flex items-center gap-1 px-2.5 py-1 text-xs rounded-full border border-slate-200 bg-slate-50 text-slate-700"
+                    >
+                      {color}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveColor(color)}
+                        className="text-slate-400 hover:text-slate-700"
+                      >
+                        <X size={12} />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </section>
 
@@ -539,11 +795,12 @@ const AddProducts = () => {
               </div>
 
               {/* Materials */}
-              <div>
+              <div className="space-y-2 md:col-span-2">
                 <label className="block text-xs font-medium text-slate-600 mb-1.5">
                   Materials *
                 </label>
-                <div className="flex flex-wrap gap-2">
+
+                <div className="flex flex-wrap gap-2 mb-2">
                   {options.materials.map((mat) => (
                     <button
                       key={mat}
@@ -559,6 +816,44 @@ const AddProducts = () => {
                     </button>
                   ))}
                 </div>
+
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <input
+                    type="text"
+                    value={newMaterial}
+                    onChange={(e) => setNewMaterial(e.target.value)}
+                    placeholder="Add custom material (e.g. Cashmere, Velvet)"
+                    className="w-full sm:flex-1 px-3 py-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-slate-700 focus:ring-1 focus:ring-slate-700/20 bg-white text-slate-900 placeholder:text-slate-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleAddMaterial}
+                    className="inline-flex items-center justify-center gap-1 px-3 py-2 text-xs font-medium rounded-md border border-slate-300 text-slate-800 hover:bg-slate-50"
+                  >
+                    <Plus size={14} />
+                    Add material
+                  </button>
+                </div>
+
+                {formData.materials.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-1">
+                    {formData.materials.map((material) => (
+                      <span
+                        key={material}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 text-xs rounded-full border border-slate-200 bg-slate-50 text-slate-700"
+                      >
+                        {material}
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveMaterial(material)}
+                          className="text-slate-400 hover:text-slate-700"
+                        >
+                          <X size={12} />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -647,7 +942,6 @@ const AddProducts = () => {
                           : "border-slate-200"
                       }`}
                     >
-                      {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
                       <img
                         src={img}
                         alt={`Product image ${idx + 1}`}
@@ -728,7 +1022,6 @@ const AddProducts = () => {
             {loading || uploading ? "Processing..." : "Add Product"}
           </button>
         </form>
-
       </div>
     </div>
   );

@@ -152,7 +152,7 @@ const AllProducts = () => {
 
                     {/* Price */}
                     <td className="px-3 py-2 align-middle text-slate-800">
-                      {product.currency === "USD" ? "$" : ""}
+                      {product.currency === "USD" ? "$" : "£"}
                       {priceNumber.toFixed(2)}
                     </td>
 

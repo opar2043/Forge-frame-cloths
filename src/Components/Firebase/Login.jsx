@@ -161,16 +161,6 @@ const Login = () => {
             <span className="h-[1px] flex-1 bg-slate-200" />
           </div>
 
-          {/* Google button */}
-          {/* <button
-            type="button"
-            onClick={handleGoogleAccount}
-            className="mx-auto flex items-center justify-center gap-3 border border-slate-300 bg-white px-5 py-2 rounded-md"
-            title="Sign in with Google"
-          >
-            <FcGoogle size={20} />
-            <span className="text-slate-900">Google</span>
-          </button> */}
         </form>
       </motion.div>
     </section>
